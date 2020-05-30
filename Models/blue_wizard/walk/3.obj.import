@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/3.obj-d153d4faad2220fc7661fb23cda44059.mesh"
+
+[deps]
+
+files=[ "res://.import/3.obj-d153d4faad2220fc7661fb23cda44059.mesh" ]
+
+source_file="res://Models/blue_wizard/walk/3.obj"
+dest_files=[ "res://.import/3.obj-d153d4faad2220fc7661fb23cda44059.mesh", "res://.import/3.obj-d153d4faad2220fc7661fb23cda44059.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( -0.95, -1, 0.95 )
+optimize_mesh=true

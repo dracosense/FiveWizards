@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/1.obj-d61bc95cd6147bde894c9da2979f9fa0.mesh"
+
+[deps]
+
+files=[ "res://.import/1.obj-d61bc95cd6147bde894c9da2979f9fa0.mesh" ]
+
+source_file="res://Models/units/red/idle/1.obj"
+dest_files=[ "res://.import/1.obj-d61bc95cd6147bde894c9da2979f9fa0.mesh", "res://.import/1.obj-d61bc95cd6147bde894c9da2979f9fa0.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( -0.95, -2, 0.95 )
+optimize_mesh=true

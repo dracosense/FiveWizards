@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://Scripts/Joystick.cs" type="Script" id=1]
+[ext_resource path="res://Materials/joystick_s.tres" type="StyleBox" id=2]
+[ext_resource path="res://Textures/joystick.png" type="Texture" id=3]
+
+[node name="Joystick" type="Button"]
+self_modulate = Color( 0.4, 0.4, 0.4, 1 )
+margin_right = 192.0
+margin_bottom = 192.0
+custom_styles/hover = ExtResource( 2 )
+custom_styles/pressed = ExtResource( 2 )
+custom_styles/focus = ExtResource( 2 )
+custom_styles/disabled = ExtResource( 2 )
+custom_styles/normal = ExtResource( 2 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Point" type="TextureRect" parent="."]
+self_modulate = Color( 0.2, 0.2, 0.2, 1 )
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -16.0
+margin_top = -16.0
+margin_right = 16.0
+margin_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_pivot_offset = Vector2( 16, 16 )
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="button_down" from="." to="." method="_on_button_down"]
+[connection signal="button_up" from="." to="." method="_on_button_up"]

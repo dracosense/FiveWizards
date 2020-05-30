@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/teleport.obj-c61e34d5438b0f901e6b60a1e06c0773.mesh"
+
+[deps]
+
+files=[ "res://.import/teleport.obj-c61e34d5438b0f901e6b60a1e06c0773.mesh" ]
+
+source_file="res://Models/teleport.obj"
+dest_files=[ "res://.import/teleport.obj-c61e34d5438b0f901e6b60a1e06c0773.mesh", "res://.import/teleport.obj-c61e34d5438b0f901e6b60a1e06c0773.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( -2, -2, 2 )
+optimize_mesh=true

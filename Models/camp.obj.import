@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/camp.obj-7154f13543e619a99f204fbbc9394bb8.mesh"
+
+[deps]
+
+files=[ "res://.import/camp.obj-7154f13543e619a99f204fbbc9394bb8.mesh" ]
+
+source_file="res://Models/camp.obj"
+dest_files=[ "res://.import/camp.obj-7154f13543e619a99f204fbbc9394bb8.mesh", "res://.import/camp.obj-7154f13543e619a99f204fbbc9394bb8.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( -4, -2, 4 )
+optimize_mesh=true
