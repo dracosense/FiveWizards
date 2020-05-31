@@ -35,6 +35,7 @@ public class Spell : Arrow
     public override void _Ready()
     {
         base._Ready();
+        damage = SPELL_DAMAGE;
         particles = (CPUParticles)GetNode("Particles");
     }
 

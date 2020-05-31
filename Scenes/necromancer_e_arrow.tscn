@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/e_arrow.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scripts/NecromancerEArrow.cs" type="Script" id=2]
+[ext_resource path="res://Scripts/NecromancerArrow.cs" type="Script" id=2]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 0.666667, 0, 1, 1 )

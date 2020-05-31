@@ -552,11 +552,18 @@ public class GameMap
                     new Vec2I(maxRSize.x - 1, maxRSize.y - 1));
                     rooms[rooms.Count - 1].owner = mROwners[x]; // + mainR.x;
                     cell = map[rcx[i], rcy[j]];
-                    cell.tower_t = -1;
-                    cell.tower_e = -1;
-                    cell.tower_p = BASE_TOWER_POWER;
+                    cell.ClearTower();
                     cell.teleport = x + mainR.x;
                     cell.tile = TELEPORT_TILE;
+                    for (int p = 0; p < D_NUM; p++)
+                    {
+                        if (rand.NextDouble() < WIZARD_T_GEN_CONST)
+                        {
+                            cell = map[rcx[i] + MAIN_R_T_GEN_DIST * D_WAYS[p].x, rcy[j] + MAIN_R_T_GEN_DIST * D_WAYS[p].y];
+                            cell.ClearTower();
+                            cell.structure = TOWER_STRUCT;
+                        }
+                    }
                     mainRooms.Add(rooms[rooms.Count - 1]);
                     teleports[x + mainR.x] = new Vec2I(rcx[i], rcy[j]);
                     rOwners[i, j] = mROwners[x]; // + mainR.x;
@@ -577,12 +584,15 @@ public class GameMap
                         new Vec2I(minRSize.x + rand.Next() % (maxRSize.x - minRSize.x), 
                         minRSize.y + rand.Next() % (maxRSize.y - minRSize.y)));
                         rPositions[i, j] = rooms[rooms.Count - 1];
-                        map[rcx[i], rcy[j]].ClearTower();
-                        map[rcx[i], rcy[j]].structure = TOWER_STRUCT;
+                        if (rand.NextDouble() < WIZARD_T_GEN_CONST)
+                        {
+                            map[rcx[i], rcy[j]].ClearTower();
+                            map[rcx[i], rcy[j]].structure = TOWER_STRUCT;
+                        }
                     }
                     else
                     {
-                        if (rand.NextDouble() < STRUCT_GEN_CONST)
+                        if (rand.NextDouble() < CAMP_GEN_CONST)
                         {
                             map[rcx[i], rcy[j]].structure  = CAMP_STRUCT;
                         }

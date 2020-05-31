@@ -80,7 +80,7 @@ public static class Lib
     public const float RAY_LENGTH = 100.0f;
     public const float ARROW_SPEED = 30.0f;
     public const float SPELL_SPEED = 20.0f;
-    public const float NECROMANCER_ARROW_SPEED = 16.0f;
+    public const float NECROMANCER_ARROW_SPEED = 12.0f;
     public const float ARROW_DESTROY_TIME = 4.0f;
     public const float MIN_GO_TO_POINT_DIST = 1.0f;
     public const float BASE_TOWER_POWER = 1.8f;
@@ -89,9 +89,11 @@ public static class Lib
     public const float UNIT_SCALE_CONST = 0.4f;
     public const float T_RAND_GEN_CONST = 0.9f;
     public const float ROOM_GEN_CONST = 0.6f;
-    public const float STRUCT_GEN_CONST = 0.4f;
+    public const float CAMP_GEN_CONST = 0.25f;
     public const float BASIC_ARROW_DAMAGE = 0.6f;
-    public const float H_ARROW_DAMAGE = -1.0f;
+    public const float SPELL_DAMAGE = 0.6f;
+    public const float H_ARROW_DAMAGE = -0.8f;
+    public const float NECROMANCER_ARROW_DAMAGE = 0.8f;
     public const float UNIT_TARGET_DIST = 1.2f;
     public const float FRIEND_UNIT_TELEPORT_DIST = 12.0f;
     public const float FRIEND_UNIT_MAX_GEN_DIST = 2.0f;
@@ -114,6 +116,7 @@ public static class Lib
     public const float ENT_ADD_HEALTH = 4.0f;
     public const float BLUE_W_TOWER_SPEED = 8.0f;
     public const float BLUE_W_TOWER_DAMAGE = 2.0f;
+    public const float WIZARD_T_GEN_CONST = 0.8f;
     // effect constants
     public const float ATTACK_E_CONST = 0.2f;
     public const float SPEED_E_CONST = 0.2f;
@@ -141,10 +144,13 @@ public static class Lib
     public const int RANDOM_SHUFFLE_CONST = 5;
     public const int BASE_FRIENDS_NUM = 3;
     public const int ENT_TYPE = 1;
+    public const int MAIN_R_T_GEN_DIST = 2;
+    // wizards
     public const int MONSTER_WIZARD = 0;
+    public const int NATURE_WIZARD = 1;
+    public const int ELEMENTAL_WIZARD = 2;
     public const int WAR_WIZARD = 3;
     public const int NECROMANCER_WIZARD = 4;
-    public const int ELEMENTAL_WIZARD = 2;
     public const int SPIRIT_WIZARD = 5;
     // structures
     public const int NULL_STRUCT = -1;
@@ -201,7 +207,7 @@ public static class Lib
     public static readonly Material unitM = LoadM("main_m");
     public static readonly Vec2I MAIN_MAP_SIZE = new Vec2I(120, 120);
     public static readonly Vec2I MAP_T_FLOOR_SIZE = new Vec2I(60, 60);
-    public static readonly Vec2I CAMP_UNITS_NUM = new Vec2I(1, 2);
+    public static readonly Vec2I CAMP_UNITS_NUM = new Vec2I(2, 4);
     public static readonly Vec2I ROOM_MONSTERS_NUM = new Vec2I(4, 6);
 
     public static PackedScene LoadPS(string name)
