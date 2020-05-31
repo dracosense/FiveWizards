@@ -90,7 +90,7 @@ public class MainMap : GridMap
         }
     }
 
-    public void CreateStruct(Vec2I pos, int s)
+    public void CreateStruct(Vec2I pos, int s, int owner)
     {
         PackedScene ps = null;
         switch(s)
@@ -99,7 +99,10 @@ public class MainMap : GridMap
                 ps = campPS;
                 break;
             case TOWER_STRUCT:
-                //ps = wizardTowers[]; 
+                if (owner >= 0)
+                {
+                    ps = wizardTowers[owner];
+                } 
                 break;
             default:
                 break;
@@ -113,6 +116,7 @@ public class MainMap : GridMap
     public void DrawMap()
     {
         MapCell c;
+        int x = 0;
         bool b = (pMapPos.x != lastPMapPos.x || pMapPos.y != lastPMapPos.y); 
         if (b || redrawMap)
         {
@@ -143,11 +147,22 @@ public class MainMap : GridMap
                     if (c != null && (c.tile != GetCell(new Vec2I(i, j)) || Mathf.Abs(i - lastPMapPos.x) > DRAW_MAP_DIST ||
                      Mathf.Abs(j - lastPMapPos.y) > DRAW_MAP_DIST || redrawMap))
                     {
-                        SetCell(new Vec2I(i, j), c.tile);
-                        if (c.structure != CREATED_STRUCT)
+                        if (c.room >= 0)
                         {
-                            CreateStruct(new Vec2I(i, j), c.structure);
-                            c.structure = CREATED_STRUCT;
+                            x = map.rooms[c.room].owner;
+                        }
+                        else
+                        {
+                            x = -1;
+                        }
+                        SetCell(new Vec2I(i, j), c.tile);
+                        if (c.structure != NULL_STRUCT)
+                        {
+                            if (x != root.playerWizard)
+                            {
+                                CreateStruct(new Vec2I(i, j), c.structure, x);
+                            }
+                            c.structure = NULL_STRUCT;
                         }
                         if (c.tower_t >= 0 && c.tower == null && (c.room == aRoom || c.room == -1 || aRoom == -1))
                         {
@@ -273,7 +288,7 @@ public class MainMap : GridMap
                     else
                     {
                         map.SetREntrances(aRoom, BLOCK_TILE);
-                        x = root.rand.Next()  % (ROOM_MONSTERS_NUM.y - ROOM_MONSTERS_NUM.x) + ROOM_MONSTERS_NUM.x; 
+                        x = (int)(wizardGenEConst[map.rooms[aRoom].owner] * (root.rand.Next()  % (ROOM_MONSTERS_NUM.y - ROOM_MONSTERS_NUM.x) + ROOM_MONSTERS_NUM.x)); 
                         GenMonsters(aRoom, x, wizardUnits[map.rooms[aRoom].owner, 0]);
                         redrawMap = true;
                         root.playerInBattle = true;

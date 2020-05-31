@@ -78,17 +78,20 @@ public static class Lib
     // wizards: nature mage, elementalist, war mage, necromancer, spirit
 
     public const float RAY_LENGTH = 100.0f;
-    public const float ARROW_SPEED = 20.0f;
+    public const float ARROW_SPEED = 30.0f;
+    public const float SPELL_SPEED = 20.0f;
+    public const float NECROMANCER_ARROW_SPEED = 16.0f;
     public const float ARROW_DESTROY_TIME = 4.0f;
     public const float MIN_GO_TO_POINT_DIST = 1.0f;
     public const float BASE_TOWER_POWER = 1.8f;
     public const float TOWER_GEN_SPELL_DIST = 2.0f; //  
     public const float UNIT_RETURN_POINT_DIST = 1.0f;
     public const float UNIT_SCALE_CONST = 0.4f;
-    public const float T_RAND_GEN_CONST = 0.8f;
+    public const float T_RAND_GEN_CONST = 0.9f;
     public const float ROOM_GEN_CONST = 0.6f;
     public const float STRUCT_GEN_CONST = 0.4f;
     public const float BASIC_ARROW_DAMAGE = 0.6f;
+    public const float H_ARROW_DAMAGE = -1.0f;
     public const float UNIT_TARGET_DIST = 1.2f;
     public const float FRIEND_UNIT_TELEPORT_DIST = 12.0f;
     public const float FRIEND_UNIT_MAX_GEN_DIST = 2.0f;
@@ -109,6 +112,8 @@ public static class Lib
     public const float R_PLAYER_M_E = 5.0f; // regenerate player magic energy
     public const float R_PLAYER_HEALTH = 24.0f;
     public const float ENT_ADD_HEALTH = 4.0f;
+    public const float BLUE_W_TOWER_SPEED = 8.0f;
+    public const float BLUE_W_TOWER_DAMAGE = 2.0f;
     // effect constants
     public const float ATTACK_E_CONST = 0.2f;
     public const float SPEED_E_CONST = 0.2f;
@@ -133,16 +138,16 @@ public static class Lib
     public const int MAX_SPELL_NUM = 20;
     public const int MAP_FLOOR_DIST = 40;
     public const int UNIT_TYPES_NUM = 6;
-    public const int MONSTER_TOWER = 0;
     public const int RANDOM_SHUFFLE_CONST = 5;
     public const int BASE_FRIENDS_NUM = 3;
     public const int ENT_TYPE = 1;
+    public const int MONSTER_WIZARD = 0;
     public const int WAR_WIZARD = 3;
     public const int NECROMANCER_WIZARD = 4;
     public const int ELEMENTAL_WIZARD = 2;
     public const int SPIRIT_WIZARD = 5;
     // structures
-    public const int CREATED_STRUCT = -1;
+    public const int NULL_STRUCT = -1;
     public const int CAMP_STRUCT = 0;
     public const int TOWER_STRUCT = 1;
     // effect types
@@ -166,7 +171,12 @@ public static class Lib
     public const int INF = (int)1e9;
 
     public static readonly Vec2I[] D_WAYS = {new Vec2I(1, 0), new Vec2I(0, 1), new Vec2I(-1, 0), new Vec2I(0, -1)}; // directions ways
-    public static readonly Mesh[] towerTModels = {LoadMesh("tower/tower0"), LoadMesh("tower/tower1"), LoadMesh("tower/tower2")};
+
+    public static readonly PackedScene[] wizardTowers = {LoadPS("WizardTowers/red_tower"),
+     LoadPS("WizardTowers/green_tower"), LoadPS("WizardTowers/blue_tower"), LoadPS("WizardTowers/gray_tower"),
+      LoadPS("WizardTowers/purpure_tower"), LoadPS("WizardTowers/white_tower")};
+    public static readonly Mesh[] towerTModels = {LoadMesh("tower/tower0"), 
+    LoadMesh("tower/tower1"), LoadMesh("tower/tower2")};
     public static readonly Material[] towerEMaterials = {LoadM("crystal_red_m"), LoadM("crystal_green_m"),
      LoadM("crystal_blue_m"), LoadM("crystal_orange_m"), LoadM("crystal_purpure_m"), LoadM("crystal_white_m")};
      public static readonly Material[] eMaterials = {LoadM("e_red_m"), LoadM("e_green_m"), 
@@ -178,7 +188,10 @@ public static class Lib
      public static readonly float[] unitDamage = {1.2f, 0.6f, 0.8f, 0.7f, 0.6f, 0.8f};
      public static readonly float[] unitHealth = {5.0f, 7.0f, 6.0f, 3.0f, 4.0f, 6.0f};
      public static readonly uint[,] wizardUnits = {{0}, {1}, {2}, {3}, {4}, {5}};
-     public static readonly uint[] wizardGenEConst = {1, 1, 1, 2, 2, 1};
+     public static readonly float[] wizardGenEConst = {1.2f, 1.0f, 1.0f, 1.8f, 2.0f, 1.0f};
+     public static readonly PackedScene eArrowPS = LoadPS("e_arrow");
+     public static readonly PackedScene healEArrowPS = LoadPS("heal_e_arrow");
+     public static readonly PackedScene necromancerEArrowPS = LoadPS("necromancer_e_arrow");
     public static readonly PackedScene spellPS = LoadPS("spell");
     public static readonly PackedScene towerPS = LoadPS("tower");
     public static readonly PackedScene campPS = LoadPS("camp");
@@ -189,7 +202,7 @@ public static class Lib
     public static readonly Vec2I MAIN_MAP_SIZE = new Vec2I(120, 120);
     public static readonly Vec2I MAP_T_FLOOR_SIZE = new Vec2I(60, 60);
     public static readonly Vec2I CAMP_UNITS_NUM = new Vec2I(1, 2);
-    public static readonly Vec2I ROOM_MONSTERS_NUM = new Vec2I(3, 6);
+    public static readonly Vec2I ROOM_MONSTERS_NUM = new Vec2I(4, 6);
 
     public static PackedScene LoadPS(string name)
     {

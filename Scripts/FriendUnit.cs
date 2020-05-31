@@ -43,7 +43,7 @@ public class FriendUnit : Unit
             effects[HEALTH_E].param = FRIEND_HEALTH_E;
         }
         //
-        if (type == wizardUnits[SPIRIT_WIZARD, 0] && root.friendUnitsNum >= BASE_FRIENDS_NUM) // spirit
+        if (type == wizardUnits[SPIRIT_WIZARD, 0] && root.friendUnitsNum > BASE_FRIENDS_NUM) // spirit
         {
             root.magicE = Mathf.Max(root.magicE - SPIRIT_TIME_COST * delta, 0.0f);
             if (Input.IsActionJustPressed("destroy_units") || root.magicE <= 0.0f)

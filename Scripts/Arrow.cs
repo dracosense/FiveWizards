@@ -9,6 +9,7 @@ public class Arrow : KinematicBody
     public float startTime;
     public float damage;
     public int effect;
+    public int wizard;
     public bool active;
 
     protected Root root;
@@ -23,7 +24,7 @@ public class Arrow : KinematicBody
     {
         if (c.Collider is Unit)
         {
-            ((Unit)c.Collider).Damage(damage, effect, -1    );
+            ((Unit)c.Collider).Damage(damage, effect, wizard);
         }
         Destroy();
     }
@@ -32,6 +33,7 @@ public class Arrow : KinematicBody
     {
         damage = BASIC_ARROW_DAMAGE;
         effect = -1;
+        wizard = -1;
         active = true;
     }
 
@@ -50,7 +52,8 @@ public class Arrow : KinematicBody
             return;
         }
         this.Visible = active;
-        this.Rotation = new Vector3(0.0f, -(new Vector2(speed.x, speed.z)).Angle() + Mathf.Pi / 2.0f, 0.0f); 
+        LookAt(this.GlobalTransform.origin + speed, new Vector3(0.0f, 1.0f, 0.0f));
+        //this.Rotation = new Vector3(0.0f, -(new Vector2(speed.x, speed.z)).Angle() + Mathf.Pi / 2.0f, 0.0f); 
         KinematicCollision c = MoveAndCollide(delta * speed); 
         if (c != null)
         {

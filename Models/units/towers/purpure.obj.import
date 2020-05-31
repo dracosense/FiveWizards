@@ -15,5 +15,5 @@ dest_files=[ "res://.import/purpure.obj-d2b7b9c98f30fad4eaf97243b7fb9e20.mesh", 
 
 generate_tangents=true
 scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( 0, 0, 0 )
+offset_mesh=Vector3( -2, -2, 2 )
 optimize_mesh=true

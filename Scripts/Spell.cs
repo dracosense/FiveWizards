@@ -6,7 +6,6 @@ public class Spell : Arrow
 {
 
     public int copy = 0;
-    public int wizard = -1;
     
     protected CPUParticles particles;
 
@@ -23,11 +22,7 @@ public class Spell : Arrow
         }
         else
         {
-            if (c.Collider is Unit)
-            {
-                ((Unit)c.Collider).Damage(damage, effect, wizard); // rewmake
-            }
-            Destroy();
+            base.Collide(c);
         }
     }
 

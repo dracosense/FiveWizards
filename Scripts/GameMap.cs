@@ -18,16 +18,21 @@ public class GameMap
         public int teleport;
         public int structure;
 
+        public void ClearTower()
+        {
+            tower_t = -1;
+            tower_e = -1;
+            tower_p = BASE_TOWER_POWER;
+        }
+
         public MapCell()
         {
             tower = null;
             room = -1;
             tile = EMPTY_TILE;
-            tower_t = -1;
-            tower_e = -1;
-            tower_p = BASE_TOWER_POWER;
             teleport = -1;
-            structure = CREATED_STRUCT;
+            structure = NULL_STRUCT;
+            ClearTower();
         }
 
     }
@@ -155,11 +160,11 @@ public class GameMap
         }
         if (playerTower >= 0 && playerTower < towersNum && towersNum > 1) // ?? more random ??
         {
-            if (towerOwners[playerTower] == MONSTER_TOWER)
+            if (towerOwners[playerTower] == MONSTER_WIZARD)
             {
                 y = ((playerTower > 0)?(playerTower - 1):(playerTower + 1));
                 towerOwners[playerTower] = towerOwners[y];
-                towerOwners[y] = MONSTER_TOWER;
+                towerOwners[y] = MONSTER_WIZARD;
             }
         }
         GenMap(new Vec2I(0, 0), mainSize, new Vec2I(11, 11), new Vec2I(15, 15), 
@@ -572,6 +577,8 @@ public class GameMap
                         new Vec2I(minRSize.x + rand.Next() % (maxRSize.x - minRSize.x), 
                         minRSize.y + rand.Next() % (maxRSize.y - minRSize.y)));
                         rPositions[i, j] = rooms[rooms.Count - 1];
+                        map[rcx[i], rcy[j]].ClearTower();
+                        map[rcx[i], rcy[j]].structure = TOWER_STRUCT;
                     }
                     else
                     {

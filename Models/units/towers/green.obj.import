@@ -15,5 +15,5 @@ dest_files=[ "res://.import/green.obj-f1c375f1ed12b354783470c39a5ab50a.mesh", "r
 
 generate_tangents=true
 scale_mesh=Vector3( 1, 1, 1 )
-offset_mesh=Vector3( -2, -2, 2 )
+offset_mesh=Vector3( -1.6, -2, 1.4 )
 optimize_mesh=true

@@ -35,7 +35,7 @@ public class Player : Unit
             // Spell s = root.CreateSpell(aPosObj.GlobalTransform.origin);
             if (s != null)
             {
-                s.speed = ARROW_SPEED * (new Vector3(v.x, 0.0f, v.z).Normalized());
+                s.speed = SPELL_SPEED * (new Vector3(v.x, 0.0f, v.z).Normalized());
                 s.wizard = (int)root.playerWizard;
             }
             else
@@ -55,6 +55,7 @@ public class Player : Unit
     {
         maxHealth = 24.0f;
         speed = 8.0f;
+        shield = 0.2f;
         randScaled = false;
         randRotated = false;
         base._Ready();
