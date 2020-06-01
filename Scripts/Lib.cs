@@ -118,12 +118,12 @@ public static class Lib
     public const float BLUE_W_TOWER_DAMAGE = 2.0f;
     public const float WIZARD_T_GEN_CONST = 0.8f;
     // effect constants
-    public const float ATTACK_E_CONST = 0.2f;
-    public const float SPEED_E_CONST = 0.2f;
-    public const float DAMAGE_E_CONST = 0.2f;
-    public const float SHIELD_E_CONST = 0.2f;
-    public const float HEALTH_E_CONST = 0.2f;
-    public const float VISIBILITY_R_E_CONST = 0.2f;
+    public const float ATTACK_E_CONST = 0.6f;
+    public const float SPEED_E_CONST = 0.4f;
+    public const float DAMAGE_E_CONST = 0.6f;
+    public const float SHIELD_E_CONST = 0.6f;
+    public const float HEALTH_E_CONST = 0.3f;
+    public const float VISIBILITY_R_E_CONST = 0.4f;
     //
     public const int EMPTY_TILE = -1;
     public const int BLOCK_TILE = 0;

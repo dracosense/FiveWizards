@@ -13,6 +13,8 @@ public class Unit : KinematicBody
     protected AnimationPlayer aPlayer;
     protected MeshInstance model;
     protected MeshInstance healthBar;
+    protected MeshInstance[] eIndicators;
+    protected Spatial indicators;
     protected Area vRange;
     protected Area aRange;
     protected Root root;
@@ -130,15 +132,18 @@ public class Unit : KinematicBody
     {
         aPlayer = (AnimationPlayer)GetNode("APlayer");
         model = (MeshInstance)GetNode("Model");
-        healthBar = (MeshInstance)GetNodeOrNull("HealthBar"); 
+        healthBar = (MeshInstance)GetNodeOrNull("Indicators/HealthBar"); 
         vRange = (Area)GetNodeOrNull("VisibilityRange");
         aRange = (Area)GetNodeOrNull("AttackRange");
+        indicators = (Spatial)GetNodeOrNull("Indicators");
         root = (Root)GetNode("/root/root");
         spawnPos = new Vector3(this.GlobalTransform.origin);
         effects = new Effect[EFFECTS_NUM];
+        eIndicators = new MeshInstance[EFFECTS_NUM];
         for (int i = 0; i < effects.Length; i++)
         {
             effects[i] = new Effect(i, root.time - EFFECT_TIME, 0.0f);
+            eIndicators[i] = (MeshInstance)GetNodeOrNull("Indicators/E" + i.ToString());
         }
         if (randScaled)
         {
@@ -170,6 +175,17 @@ public class Unit : KinematicBody
             if (effects[i].sTime + EFFECT_TIME <= root.time)
             {
                 effects[i].param = 0.0f;
+                if (eIndicators[i] != null)
+                {
+                    eIndicators[i].Visible = false;
+                }
+            }
+            else
+            {
+                if (eIndicators[i] != null)
+                {
+                    eIndicators[i].Visible = true;
+                }
             }
         }
         if (vRange != null)
@@ -212,7 +228,10 @@ public class Unit : KinematicBody
         if (healthBar != null)
         {
             healthBar.Scale = new Vector3(((maxHealth == 0.0f || health <= 0.0f)?0.0f:(health / maxHealth)), 1.0f, 1.0f);
-            healthBar.Rotation = -this.Rotation;
+        }
+        if (indicators != null)
+        {
+            indicators.Rotation = -this.Rotation;
         }
         timeFromAttack += delta;
         timeFromDamage += delta;
