@@ -6,7 +6,7 @@ public class RedWTower : Area
 {
 
     protected Root root;
-    protected float createUTimeout = 8.0f;
+    protected float createUTimeout = 10.0f;
     protected float timeFromCreateUnit;
     protected int active;
 
@@ -32,7 +32,7 @@ public class RedWTower : Area
         Unit unit;
         timeFromCreateUnit += delta;
         if (active > 0 && timeFromCreateUnit > createUTimeout)
-        {
+        {    
             unit = root.CreateObj(enemyUnitPS, this.GlobalTransform.origin + MAP_CELL_SIZE * new Vector3((float)(root.rand.NextDouble() - 0.5f), 0.0f, (float)(root.rand.NextDouble() - 0.5f))) as Unit;
             if (unit != null)
             {

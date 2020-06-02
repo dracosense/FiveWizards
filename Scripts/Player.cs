@@ -53,7 +53,7 @@ public class Player : Unit
 
     public override void _Ready()
     {
-        maxHealth = 24.0f;
+        maxHealth = 30.0f;
         speed = 8.0f;
         shield = 0.2f;
         randScaled = false;

@@ -15,6 +15,7 @@ public class Unit : KinematicBody
     protected MeshInstance healthBar;
     protected MeshInstance[] eIndicators;
     protected Spatial indicators;
+    protected Spatial archPos;
     protected Area vRange;
     protected Area aRange;
     protected Root root;
@@ -49,6 +50,36 @@ public class Unit : KinematicBody
         {
             aPlayer.Play(unitName[type] + '_' + s);
         }
+    }
+
+    public virtual void SetWCMask(KinematicBody body)
+    {
+        body.CollisionMask = 0;
+        body.SetCollisionMaskBit(MAP_M_BIT, true);
+    }
+
+    public bool TryArch(Vector3 pos)
+    {
+        Arrow a = null;
+        Vector2 v = Vec3ToVec2(pos - this.GlobalTransform.origin);
+        if (timeFromAttack >= attackTimeout && type >= 0 && unitArrow[type] != null && archPos != null)
+        {
+            this.Rotation = new Vector3(0.0f, GetRealAngle(v.Angle()), 0.0f);
+            a = root.CreateObj(unitArrow[type], archPos.GlobalTransform.origin) as Arrow;
+            if (a  != null)
+            {
+                SetWCMask(a);
+                a.speed = UNIT_ARROW_SPEED * ((pos - archPos.GlobalTransform.origin).Normalized());
+                timeFromAttack = 0.0f;
+                return true;
+            }
+            else
+            {
+                GD.Print("Unit create arrow error.");
+                a.QueueFree();
+            }
+        }
+        return false;
     }
 
     public virtual void SetType(uint t)
@@ -136,6 +167,7 @@ public class Unit : KinematicBody
         vRange = (Area)GetNodeOrNull("VisibilityRange");
         aRange = (Area)GetNodeOrNull("AttackRange");
         indicators = (Spatial)GetNodeOrNull("Indicators");
+        archPos = (Spatial)GetNodeOrNull("ArchPos");
         root = (Root)GetNode("/root/root");
         spawnPos = new Vector3(this.GlobalTransform.origin);
         effects = new Effect[EFFECTS_NUM];

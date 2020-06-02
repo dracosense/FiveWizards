@@ -17,7 +17,7 @@ public class WTower : Area
         Arrow arrow = root.CreateObj(weaponPS, archPos.GlobalTransform.origin) as Arrow;
         if (arrow != null)
         {
-            arrow.speed = weaponSpeed * ((unit.GlobalTransform.origin - archPos.GlobalTransform.origin).Normalized());
+            arrow.speed = weaponSpeed * ((unit.GlobalTransform.origin + SHOOT_BASE_TRANSLATION - archPos.GlobalTransform.origin).Normalized());
         }
         else
         {

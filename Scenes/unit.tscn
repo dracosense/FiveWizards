@@ -60,22 +60,21 @@ albedo_color = Color( 0.8, 0, 0, 1 )
 [sub_resource type="CubeMesh" id=3]
 size = Vector3( 0.1, 0.1, 0.1 )
 
-[sub_resource type="SpatialMaterial" id=23]
+[sub_resource type="SpatialMaterial" id=4]
 albedo_color = Color( 0, 0.8, 0, 1 )
 
-[sub_resource type="SpatialMaterial" id=25]
+[sub_resource type="SpatialMaterial" id=5]
 albedo_color = Color( 0, 0, 0.8, 1 )
 
-[sub_resource type="SpatialMaterial" id=24]
+[sub_resource type="SpatialMaterial" id=6]
 albedo_color = Color( 0.2, 0.2, 0.2, 1 )
 
-[sub_resource type="SpatialMaterial" id=27]
+[sub_resource type="SpatialMaterial" id=7]
 albedo_color = Color( 0.56875, 0, 0.8, 1 )
 
-[sub_resource type="SpatialMaterial" id=26]
+[sub_resource type="SpatialMaterial" id=8]
 
-[sub_resource type="Animation" id=4]
-resource_name = "blue_idle"
+[sub_resource type="Animation" id=9]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:mesh")
 tracks/0/interp = 1
@@ -89,8 +88,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 16 ), ExtResource( 17 ) ]
 }
 
-[sub_resource type="Animation" id=5]
-resource_name = "blue_move"
+[sub_resource type="Animation" id=10]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:mesh")
@@ -105,8 +103,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 18 ), ExtResource( 22 ), ExtResource( 20 ), ExtResource( 21 ), ExtResource( 19 ) ]
 }
 
-[sub_resource type="Animation" id=6]
-resource_name = "gray2_idle"
+[sub_resource type="Animation" id=11]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:mesh")
 tracks/0/interp = 1
@@ -120,8 +117,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 36 ), ExtResource( 35 ) ]
 }
 
-[sub_resource type="Animation" id=7]
-resource_name = "gray2_move"
+[sub_resource type="Animation" id=12]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:mesh")
@@ -136,8 +132,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 37 ), ExtResource( 40 ), ExtResource( 38 ), ExtResource( 39 ) ]
 }
 
-[sub_resource type="Animation" id=8]
-resource_name = "gray3_idle"
+[sub_resource type="Animation" id=13]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:mesh")
 tracks/0/interp = 1
@@ -151,8 +146,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 45 ), ExtResource( 46 ) ]
 }
 
-[sub_resource type="Animation" id=9]
-resource_name = "gray3_move"
+[sub_resource type="Animation" id=14]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:mesh")
@@ -167,7 +161,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 41 ), ExtResource( 42 ), ExtResource( 44 ), ExtResource( 43 ) ]
 }
 
-[sub_resource type="Animation" id=10]
+[sub_resource type="Animation" id=15]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:mesh")
 tracks/0/interp = 1
@@ -181,7 +175,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 9 ), ExtResource( 7 ) ]
 }
 
-[sub_resource type="Animation" id=11]
+[sub_resource type="Animation" id=16]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:mesh")
@@ -196,7 +190,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 5 ), ExtResource( 6 ), ExtResource( 3 ), ExtResource( 4 ) ]
 }
 
-[sub_resource type="Animation" id=12]
+[sub_resource type="Animation" id=17]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:mesh")
 tracks/0/interp = 1
@@ -210,7 +204,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 15 ), ExtResource( 11 ) ]
 }
 
-[sub_resource type="Animation" id=13]
+[sub_resource type="Animation" id=18]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:mesh")
@@ -225,7 +219,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 13 ), ExtResource( 10 ), ExtResource( 14 ), ExtResource( 12 ) ]
 }
 
-[sub_resource type="Animation" id=14]
+[sub_resource type="Animation" id=19]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:mesh")
 tracks/0/interp = 1
@@ -239,7 +233,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 23 ), ExtResource( 24 ) ]
 }
 
-[sub_resource type="Animation" id=15]
+[sub_resource type="Animation" id=20]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:mesh")
@@ -254,7 +248,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 28 ), ExtResource( 26 ), ExtResource( 25 ), ExtResource( 27 ) ]
 }
 
-[sub_resource type="Animation" id=16]
+[sub_resource type="Animation" id=21]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:mesh")
 tracks/0/interp = 1
@@ -268,7 +262,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 34 ), ExtResource( 33 ) ]
 }
 
-[sub_resource type="Animation" id=17]
+[sub_resource type="Animation" id=22]
 length = 0.4
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:mesh")
@@ -283,8 +277,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 30 ), ExtResource( 31 ), ExtResource( 29 ), ExtResource( 32 ) ]
 }
 
-[sub_resource type="Animation" id=18]
-resource_name = "white_idle"
+[sub_resource type="Animation" id=23]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:mesh")
 tracks/0/interp = 1
@@ -298,8 +291,7 @@ tracks/0/keys = {
 "values": [ ExtResource( 47 ), ExtResource( 48 ) ]
 }
 
-[sub_resource type="Animation" id=19]
-resource_name = "white_move"
+[sub_resource type="Animation" id=24]
 length = 0.8
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:mesh")
@@ -314,13 +306,13 @@ tracks/0/keys = {
 "values": [ ExtResource( 49 ) ]
 }
 
-[sub_resource type="BoxShape" id=20]
+[sub_resource type="BoxShape" id=25]
 extents = Vector3( 0.25, 0.5, 0.15 )
 
-[sub_resource type="SphereShape" id=21]
+[sub_resource type="SphereShape" id=26]
 radius = 4.0
 
-[sub_resource type="SphereShape" id=22]
+[sub_resource type="SphereShape" id=27]
 radius = 1.5
 
 [node name="Unit" type="KinematicBody"]
@@ -343,73 +335,82 @@ material/0 = null
 
 [node name="E0" type="MeshInstance" parent="Indicators"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 2.5, 0 )
+visible = false
 material_override = SubResource( 2 )
 mesh = SubResource( 3 )
 material/0 = null
 
 [node name="E1" type="MeshInstance" parent="Indicators"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 2.5, 0 )
-material_override = SubResource( 23 )
+visible = false
+material_override = SubResource( 4 )
 mesh = SubResource( 3 )
 material/0 = null
 
 [node name="E2" type="MeshInstance" parent="Indicators"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.1, 2.5, 0 )
-material_override = SubResource( 25 )
+visible = false
+material_override = SubResource( 5 )
 mesh = SubResource( 3 )
 material/0 = null
 
 [node name="E3" type="MeshInstance" parent="Indicators"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 2.5, 0 )
-material_override = SubResource( 24 )
+visible = false
+material_override = SubResource( 6 )
 mesh = SubResource( 3 )
 material/0 = null
 
 [node name="E4" type="MeshInstance" parent="Indicators"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 2.5, 0 )
-material_override = SubResource( 27 )
+visible = false
+material_override = SubResource( 7 )
 mesh = SubResource( 3 )
 material/0 = null
 
 [node name="E5" type="MeshInstance" parent="Indicators"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 2.5, 0 )
-material_override = SubResource( 26 )
+visible = false
+material_override = SubResource( 8 )
 mesh = SubResource( 3 )
 material/0 = null
 
 [node name="APlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Model")
-anims/blue_idle = SubResource( 4 )
-anims/blue_move = SubResource( 5 )
-anims/gray2_idle = SubResource( 6 )
-anims/gray2_move = SubResource( 7 )
-anims/gray3_idle = SubResource( 8 )
-anims/gray3_move = SubResource( 9 )
-anims/gray_idle = SubResource( 10 )
-anims/gray_move = SubResource( 11 )
-anims/green_idle = SubResource( 12 )
-anims/green_move = SubResource( 13 )
-anims/purpure_idle = SubResource( 14 )
-anims/purpure_move = SubResource( 15 )
-anims/red_idle = SubResource( 16 )
-anims/red_move = SubResource( 17 )
-anims/white_idle = SubResource( 18 )
-anims/white_move = SubResource( 19 )
+anims/blue_idle = SubResource( 9 )
+anims/blue_move = SubResource( 10 )
+anims/gray2_idle = SubResource( 11 )
+anims/gray2_move = SubResource( 12 )
+anims/gray3_idle = SubResource( 13 )
+anims/gray3_move = SubResource( 14 )
+anims/gray_idle = SubResource( 15 )
+anims/gray_move = SubResource( 16 )
+anims/green_idle = SubResource( 17 )
+anims/green_move = SubResource( 18 )
+anims/purpure_idle = SubResource( 19 )
+anims/purpure_move = SubResource( 20 )
+anims/red_idle = SubResource( 21 )
+anims/red_move = SubResource( 22 )
+anims/white_idle = SubResource( 23 )
+anims/white_move = SubResource( 24 )
 
 [node name="Collider" type="CollisionShape" parent="."]
 transform = Transform( 1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 0, 0.9, 0 )
-shape = SubResource( 20 )
+shape = SubResource( 25 )
+
+[node name="ArchPos" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0.75 )
 
 [node name="VisibilityRange" type="Area" parent="."]
 collision_layer = 0
 collision_mask = 0
 
 [node name="Collider" type="CollisionShape" parent="VisibilityRange"]
-shape = SubResource( 21 )
+shape = SubResource( 26 )
 
 [node name="AttackRange" type="Area" parent="."]
 collision_layer = 0
 collision_mask = 0
 
 [node name="Collider" type="CollisionShape" parent="AttackRange"]
-shape = SubResource( 22 )
+shape = SubResource( 27 )

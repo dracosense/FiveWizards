@@ -7,7 +7,12 @@ public class EnemyUnit : Unit
 
     public Player target;
 
-    public float attackDist = 12.0f;
+    public override void SetWCMask(KinematicBody body)
+    {
+        base.SetWCMask(body);
+        body.SetCollisionMaskBit(PLAYER_M_BIT, true);
+        body.SetCollisionMaskBit(FRIEND_M_BIT, true);
+    }
 
     public override void _Ready()
     {
@@ -21,10 +26,13 @@ public class EnemyUnit : Unit
         if (target != null)
         {
             v = Vec3ToVec2(target.GlobalTransform.origin - this.GlobalTransform.origin);
-            if (v.Length() <= attackDist)
+            if (v.Length() <= effects[VISIBILITY_R_E].GetPower() * ENEMY_V_RANGE)
             {
-                MoveOn(v);
-                SetAnim("move");
+                if (v.Length() > effects[VISIBILITY_R_E].GetPower() * ENEMY_ARCH_DIST || !TryArch(target.GlobalTransform.origin + SHOOT_BASE_TRANSLATION))
+                {
+                    MoveOn(v);
+                    SetAnim("move");
+                }
                 return;
             }
         }

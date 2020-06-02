@@ -17,6 +17,12 @@ public class FriendUnit : Unit
         speed = FRIEND_SPEED;
     }
 
+    public override void SetWCMask(KinematicBody body)
+    {
+        base.SetWCMask(body);
+        body.SetCollisionMaskBit(ENEMY_M_BIT, true);
+    }
+
     public override void Destroy()
     {
         root.friendUnitsNum--;
@@ -76,7 +82,10 @@ public class FriendUnit : Unit
         }
         if (e != null)
         {
-            targetPos = e.GlobalTransform.origin;
+            if (!TryArch(e.GlobalTransform.origin +SHOOT_BASE_TRANSLATION))
+            {
+                targetPos = e.GlobalTransform.origin;
+            }
         }
         v = Vec3ToVec2(targetPos - this.GlobalTransform.origin);
         if (v.Length() < UNIT_TARGET_DIST)

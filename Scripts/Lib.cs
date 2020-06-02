@@ -81,6 +81,7 @@ public static class Lib
     public const float ARROW_SPEED = 30.0f;
     public const float SPELL_SPEED = 20.0f;
     public const float NECROMANCER_ARROW_SPEED = 12.0f;
+    public const float UNIT_ARROW_SPEED = 16.0f;
     public const float ARROW_DESTROY_TIME = 4.0f;
     public const float MIN_GO_TO_POINT_DIST = 1.0f;
     public const float BASE_TOWER_POWER = 1.8f;
@@ -91,8 +92,8 @@ public static class Lib
     public const float ROOM_GEN_CONST = 0.6f;
     public const float CAMP_GEN_CONST = 0.25f;
     public const float BASIC_ARROW_DAMAGE = 0.6f;
-    public const float SPELL_DAMAGE = 0.6f;
-    public const float H_ARROW_DAMAGE = -0.8f;
+    public const float SPELL_DAMAGE = 0.7f;
+    public const float H_ARROW_DAMAGE = -1.0f;
     public const float NECROMANCER_ARROW_DAMAGE = 0.8f;
     public const float UNIT_TARGET_DIST = 1.2f;
     public const float FRIEND_UNIT_TELEPORT_DIST = 12.0f;
@@ -108,15 +109,17 @@ public static class Lib
     public const float MAX_MAGIC_E = 10.0f;
     public const float UNIT_M_E_ADD = 1.0f;
     public const float SKELETON_GEN_CONST = 0.8f;
-    public const float SPIRIT_TIME_COST = 0.03f;
+    public const float SPIRIT_TIME_COST = 0.01f;
     public const float ELEMENTAL_MAGIC_E = 3.0f; // magic energy to gen elemental (blue)
     public const float SPIRIT_MAGIC_E = 0.8f;
     public const float R_PLAYER_M_E = 5.0f; // regenerate player magic energy
-    public const float R_PLAYER_HEALTH = 24.0f;
+    public const float R_PLAYER_HEALTH = 30.0f;
     public const float ENT_ADD_HEALTH = 4.0f;
     public const float BLUE_W_TOWER_SPEED = 8.0f;
     public const float BLUE_W_TOWER_DAMAGE = 2.0f;
     public const float WIZARD_T_GEN_CONST = 0.8f;
+    public const float ENEMY_V_RANGE = 12.0f;
+    public const float ENEMY_ARCH_DIST = 6.0f;
     // effect constants
     public const float ATTACK_E_CONST = 0.6f;
     public const float SPEED_E_CONST = 0.4f;
@@ -145,6 +148,10 @@ public static class Lib
     public const int BASE_FRIENDS_NUM = 3;
     public const int ENT_TYPE = 1;
     public const int MAIN_R_T_GEN_DIST = 2;
+    public const int MAP_M_BIT = 0;
+    public const int PLAYER_M_BIT = 1;
+    public const int ENEMY_M_BIT = 2;
+    public const int FRIEND_M_BIT = 5;
     // wizards
     public const int MONSTER_WIZARD = 0;
     public const int NATURE_WIZARD = 1;
@@ -176,28 +183,11 @@ public static class Lib
     public const int D_NUM = 4; // directions
     public const int INF = (int)1e9;
 
-    public static readonly Vec2I[] D_WAYS = {new Vec2I(1, 0), new Vec2I(0, 1), new Vec2I(-1, 0), new Vec2I(0, -1)}; // directions ways
-
-    public static readonly PackedScene[] wizardTowers = {LoadPS("WizardTowers/red_tower"),
-     LoadPS("WizardTowers/green_tower"), LoadPS("WizardTowers/blue_tower"), LoadPS("WizardTowers/gray_tower"),
-      LoadPS("WizardTowers/purpure_tower"), LoadPS("WizardTowers/white_tower")};
-    public static readonly Mesh[] towerTModels = {LoadMesh("tower/tower0"), 
-    LoadMesh("tower/tower1"), LoadMesh("tower/tower2")};
-    public static readonly Material[] towerEMaterials = {LoadM("crystal_red_m"), LoadM("crystal_green_m"),
-     LoadM("crystal_blue_m"), LoadM("crystal_orange_m"), LoadM("crystal_purpure_m"), LoadM("crystal_white_m")};
-     public static readonly Material[] eMaterials = {LoadM("e_red_m"), LoadM("e_green_m"), 
-     LoadM("e_blue_m"), LoadM("e_orange_m"), LoadM("e_purpure_m"), LoadM("e_white_m")};
-     public static readonly string[] unitName = {"red", "green", "blue", "gray", "purpure", "white"};
-    public static readonly string[] wizardName = {"blue_wizard", "blue_wizard", "blue_wizard", "blue_wizard", "blue_wizard", "blue_wizard"}; //
-     public static readonly float[] unitSpeed = {4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f};
-     public static readonly float[] unitShield = {0.3f, 0.3f, 0.3f, 0.3f, 0.2f, 0.4f};
-     public static readonly float[] unitDamage = {1.2f, 0.6f, 0.8f, 0.7f, 0.6f, 0.8f};
-     public static readonly float[] unitHealth = {5.0f, 7.0f, 6.0f, 3.0f, 4.0f, 6.0f};
-     public static readonly uint[,] wizardUnits = {{0}, {1}, {2}, {3}, {4}, {5}};
-     public static readonly float[] wizardGenEConst = {1.2f, 1.0f, 1.0f, 1.8f, 2.0f, 1.0f};
-     public static readonly PackedScene eArrowPS = LoadPS("e_arrow");
-     public static readonly PackedScene healEArrowPS = LoadPS("heal_e_arrow");
-     public static readonly PackedScene necromancerEArrowPS = LoadPS("necromancer_e_arrow");
+    public static readonly PackedScene arrowPS = LoadPS("arrow");
+    public static readonly PackedScene eArrowPS = LoadPS("e_arrow");
+    public static readonly PackedScene healEArrowPS = LoadPS("heal_e_arrow");
+    public static readonly PackedScene necromancerEArrowPS = LoadPS("necromancer_e_arrow");
+    public static readonly PackedScene elementalArrowPS = LoadPS("elemental_arrow");
     public static readonly PackedScene spellPS = LoadPS("spell");
     public static readonly PackedScene towerPS = LoadPS("tower");
     public static readonly PackedScene campPS = LoadPS("camp");
@@ -209,6 +199,30 @@ public static class Lib
     public static readonly Vec2I MAP_T_FLOOR_SIZE = new Vec2I(60, 60);
     public static readonly Vec2I CAMP_UNITS_NUM = new Vec2I(2, 4);
     public static readonly Vec2I ROOM_MONSTERS_NUM = new Vec2I(4, 6);
+    public static readonly Vector3 SHOOT_BASE_TRANSLATION = new Vector3(0.0f, 0.25f * MAP_CELL_SIZE, 0.0f);
+
+    public static readonly Vec2I[] D_WAYS = {new Vec2I(1, 0), new Vec2I(0, 1), new Vec2I(-1, 0), new Vec2I(0, -1)}; // directions ways
+
+    public static readonly PackedScene[] wizardTowers = {LoadPS("WizardTowers/red_tower"),
+     LoadPS("WizardTowers/green_tower"), LoadPS("WizardTowers/blue_tower"), LoadPS("WizardTowers/gray_tower"),
+      LoadPS("WizardTowers/purpure_tower"), LoadPS("WizardTowers/white_tower")};
+      public static readonly PackedScene[] unitArrow = {null, null, elementalArrowPS, null, null, null};
+    public static readonly Mesh[] towerTModels = {LoadMesh("tower/tower0"), 
+    LoadMesh("tower/tower1"), LoadMesh("tower/tower2")};
+    public static readonly Material[] towerEMaterials = {LoadM("crystal_red_m"), LoadM("crystal_green_m"),
+     LoadM("crystal_blue_m"), LoadM("crystal_orange_m"), LoadM("crystal_purpure_m"), LoadM("crystal_white_m")};
+     public static readonly Material[] eMaterials = {LoadM("e_red_m"), LoadM("e_green_m"), 
+     LoadM("e_blue_m"), LoadM("e_orange_m"), LoadM("e_purpure_m"), LoadM("e_white_m")};
+     //public static readonly Material[] wizardPMaterials = {LoadM("p_red"), LoadM("p_green"),
+      //LoadM("p_blue"), LoadM("p_orange"), LoadM("p_purpure"), LoadM("p_white")}
+     public static readonly string[] unitName = {"red", "green", "blue", "gray", "purpure", "white"};
+    public static readonly string[] wizardName = {"blue_wizard", "blue_wizard", "blue_wizard", "blue_wizard", "blue_wizard", "blue_wizard"}; //
+     public static readonly float[] unitSpeed = {4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f};
+     public static readonly float[] unitShield = {0.3f, 0.3f, 0.3f, 0.3f, 0.2f, 0.4f};
+     public static readonly float[] unitDamage = {1.2f, 0.6f, 0.8f, 0.7f, 0.6f, 0.8f};
+     public static readonly float[] unitHealth = {5.0f, 7.0f, 6.0f, 3.0f, 4.0f, 6.0f};
+     public static readonly uint[,] wizardUnits = {{0}, {1}, {2}, {3}, {4}, {5}};
+     public static readonly float[] wizardGenEConst = {1.2f, 0.8f, 1.0f, 1.8f, 2.0f, 1.0f};
 
     public static PackedScene LoadPS(string name)
     {
