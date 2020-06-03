@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://MeshLibs/dungeon_lib.tres" type="MeshLibrary" id=1]
 [ext_resource path="res://Scripts/MainMap.cs" type="Script" id=2]
@@ -20,6 +20,7 @@
 [ext_resource path="res://Textures/icons/shield.png" type="Texture" id=18]
 [ext_resource path="res://Textures/icons/arrow.png" type="Texture" id=19]
 [ext_resource path="res://Textures/icons/crystals_bar.png" type="Texture" id=20]
+[ext_resource path="res://Textures/icons/teleport.png" type="Texture" id=21]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 0.3, 0.15, 0, 1 )
@@ -235,21 +236,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="UnitsModePanel" type="HBoxContainer" parent="GUILayer/GUI"]
+[node name="UnitsModePanel" type="VBoxContainer" parent="GUILayer/GUI"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 16.0
-margin_top = -116.0
-margin_right = 312.0
-margin_bottom = -20.0
+margin_left = 20.0
+margin_top = -732.0
+margin_right = 116.0
+margin_bottom = -444.0
 __meta__ = {
-"_edit_group_": true,
-"_edit_use_anchors_": false
+"_edit_group_": true
 }
 
 [node name="friends_follow_p_mode" type="Button" parent="GUILayer/GUI/UnitsModePanel"]
 margin_right = 96.0
-margin_bottom = 96.0
+margin_bottom = 93.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/hover = ExtResource( 12 )
@@ -274,9 +274,9 @@ __meta__ = {
 }
 
 [node name="friends_defend_point_mode" type="Button" parent="GUILayer/GUI/UnitsModePanel"]
-margin_left = 100.0
-margin_right = 196.0
-margin_bottom = 96.0
+margin_top = 97.0
+margin_right = 96.0
+margin_bottom = 190.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/hover = ExtResource( 12 )
@@ -301,9 +301,9 @@ __meta__ = {
 }
 
 [node name="friends_attack_mode" type="Button" parent="GUILayer/GUI/UnitsModePanel"]
-margin_left = 200.0
-margin_right = 296.0
-margin_bottom = 96.0
+margin_top = 194.0
+margin_right = 96.0
+margin_bottom = 288.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/hover = ExtResource( 12 )
@@ -346,9 +346,9 @@ __meta__ = {
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 16.0
-margin_top = -244.0
+margin_top = -132.0
 margin_right = 112.0
-margin_bottom = -148.0
+margin_bottom = -36.0
 custom_styles/hover = ExtResource( 12 )
 custom_styles/pressed = ExtResource( 12 )
 custom_styles/focus = ExtResource( 12 )
@@ -375,9 +375,9 @@ expand = true
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 144.0
-margin_top = -244.0
+margin_top = -132.0
 margin_right = 240.0
-margin_bottom = -148.0
+margin_bottom = -36.0
 custom_styles/hover = ExtResource( 12 )
 custom_styles/pressed = ExtResource( 12 )
 custom_styles/focus = ExtResource( 12 )
@@ -406,10 +406,10 @@ __meta__ = {
 [node name="destroy_units" type="Button" parent="GUILayer/GUI"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 344.0
-margin_top = -116.0
-margin_right = 440.0
-margin_bottom = -20.0
+margin_left = 272.0
+margin_top = -132.0
+margin_right = 368.0
+margin_bottom = -36.0
 custom_styles/hover = ExtResource( 12 )
 custom_styles/pressed = ExtResource( 12 )
 custom_styles/focus = ExtResource( 12 )
@@ -430,6 +430,38 @@ margin_top = 10.0
 margin_right = -10.0
 margin_bottom = -10.0
 texture = ExtResource( 16 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="teleport" type="Button" parent="GUILayer/GUI"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = -332.0
+margin_right = 112.0
+margin_bottom = -236.0
+custom_styles/hover = ExtResource( 12 )
+custom_styles/pressed = ExtResource( 12 )
+custom_styles/focus = ExtResource( 12 )
+custom_styles/disabled = ExtResource( 12 )
+custom_styles/normal = ExtResource( 12 )
+script = ExtResource( 13 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Image" type="TextureRect" parent="GUILayer/GUI/teleport"]
+self_modulate = Color( 0.6, 0.6, 0.6, 0.627451 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+texture = ExtResource( 21 )
 expand = true
 __meta__ = {
 "_edit_use_anchors_": false
@@ -462,3 +494,5 @@ script = ExtResource( 6 )
 [connection signal="button_up" from="GUILayer/GUI/create_unit" to="GUILayer/GUI/create_unit" method="_on_button_up"]
 [connection signal="button_down" from="GUILayer/GUI/destroy_units" to="GUILayer/GUI/destroy_units" method="_on_button_down"]
 [connection signal="button_up" from="GUILayer/GUI/destroy_units" to="GUILayer/GUI/destroy_units" method="_on_button_up"]
+[connection signal="button_down" from="GUILayer/GUI/teleport" to="GUILayer/GUI/teleport" method="_on_button_down"]
+[connection signal="button_up" from="GUILayer/GUI/teleport" to="GUILayer/GUI/teleport" method="_on_button_up"]
