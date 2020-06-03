@@ -20,6 +20,7 @@ public class Root : Spatial
     public int friendUnitsMode;
     public int friendUnitsNum;
     public uint playerWizard;
+    public uint winCrystals;
     public bool setFriendsTarget;
     public bool playerInBattle;
     public bool playerAtHome;
@@ -89,50 +90,18 @@ public class Root : Spatial
         playerPos = pos;
     }
 
-    public override void _Ready()
-    {
-        // Spell s;
-        mCursor = (MeshInstance)GetNode("/root/Game/MCursor");
-        game = (Spatial)GetNode("/root/Game/");
-        player = (Player)GetNode("/root/Game/Player");
-        time = 0;
-        guiInput = 0;
-        friendUnitsMode = FOLLOW_PLAYER_M;
-        playerInBattle = false;
-        playerAtHome = false;
-        followCursor = false;
-        magicE = 0.0f;
-        playerWizard = 0; // 
-        friendUnitsNum = 0;
-        /*spellQueue = new Queue<Spell>();
-        try
-        {
-            for (int i = 0; i < MAX_SPELL_NUM; i++)
-            {
-                s = (Spell)CreateObj(spellPS, INF * (new Vector3(1.0f, 1.0f, 1.0f)));
-                s.active = false;
-                spellQueue.Enqueue(s);
-            }
-        }
-        catch
-        {
-            spellQueue.Clear();
-            GD.Print("Create spells error.");
-        }*/
-    }
-
     public void CreatePUnit()
     {
         bool a = ((playerWizard == ELEMENTAL_WIZARD) && (magicE >= ELEMENTAL_MAGIC_E));
         bool b = ((playerWizard == SPIRIT_WIZARD) && (magicE >= SPIRIT_MAGIC_E));
         if (Input.IsActionJustPressed("create_unit") && (a || b))
         {
-            FriendUnit unit =  CreateObj(friendUnitPS, playerPos + MAP_CELL_SIZE *
+            FriendUnit unit = CreateObj(friendUnitPS, playerPos + MAP_CELL_SIZE *
              (new Vector3((float)(rand.NextDouble() - 0.5f), 0.0f, (float)(rand.NextDouble() - 0.5f)))) as FriendUnit;
             if (a)
             {
                 unit.SetType(wizardUnits[ELEMENTAL_WIZARD, 0]);
-                magicE -= ELEMENTAL_MAGIC_E; 
+                magicE -= ELEMENTAL_MAGIC_E;
             }
             else
             {
@@ -151,6 +120,45 @@ public class Root : Spatial
         }
     }
 
+    public void WinGame()
+    {
+        GD.Print("You win!");
+        GetTree().Quit();
+    }
+
+    public override void _Ready()
+    {
+        // Spell s;
+        mCursor = (MeshInstance)GetNode("/root/Game/MCursor");
+        game = (Spatial)GetNode("/root/Game/");
+        player = (Player)GetNode("/root/Game/Player");
+        time = 0;
+        guiInput = 0;
+        friendUnitsMode = FOLLOW_PLAYER_M;
+        playerInBattle = false;
+        playerAtHome = false;
+        followCursor = false;
+        magicE = 0.0f;
+        playerWizard = 0; // 
+        friendUnitsNum = 0;
+        winCrystals = 1;
+        /*spellQueue = new Queue<Spell>();
+        try
+        {
+            for (int i = 0; i < MAX_SPELL_NUM; i++)
+            {
+                s = (Spell)CreateObj(spellPS, INF * (new Vector3(1.0f, 1.0f, 1.0f)));
+                s.active = false;
+                spellQueue.Enqueue(s);
+            }
+        }
+        catch
+        {
+            spellQueue.Clear();
+            GD.Print("Create spells error.");
+        }*/
+    }
+
     public override void _PhysicsProcess(float delta)
     {
         time = ((float)OS.GetTicksMsec()) / 1000.0f;
@@ -161,6 +169,14 @@ public class Root : Spatial
     {
         CreatePUnit();
         RegeneratePlayer();
+        if (winCrystals >= WIZARDS_NUM)
+        {
+            WinGame();
+        }
+        if (Input.IsActionJustPressed("exit"))
+        {
+            GetTree().Quit();
+        }
         if (Input.IsActionJustPressed("follow_cursor"))
         {
             followCursor = !followCursor;

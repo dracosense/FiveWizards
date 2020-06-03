@@ -9,6 +9,9 @@ public class GUI : Control
     protected ProgressBar healthBar;
     protected ProgressBar magicEBar; 
     protected ProgressBar unitMagicEBar;
+    protected TextureProgress crystalsBar;
+    protected Button createUnitB;
+    protected Button destroyUnitsB;
     protected Label unitsMode;
 
     public override void _Ready()
@@ -17,6 +20,9 @@ public class GUI : Control
         healthBar = (ProgressBar)GetNode("HealthBar");
         magicEBar = (ProgressBar)GetNode("MagicEBar");
         unitMagicEBar = (ProgressBar)GetNode("UnitMagicEBar");
+        crystalsBar = (TextureProgress)GetNode("CrystalsBar");
+        createUnitB = (Button)GetNode("create_unit");
+        destroyUnitsB = (Button)GetNode("destroy_units");
         unitsMode = (Label)GetNode("UnitsMode");
     }
 
@@ -49,20 +55,30 @@ public class GUI : Control
             }
             unitMagicEBar.Value = unitMagicEBar.MaxValue * (x / MAX_MAGIC_E);
         }
+        crystalsBar.Value = Mathf.RoundToInt((float)(crystalsBar.MaxValue * root.winCrystals) / (float)WIZARDS_NUM);
+        createUnitB.Visible = (root.playerWizard == SPIRIT_WIZARD || root.playerWizard == ELEMENTAL_WIZARD);
+        destroyUnitsB.Visible = (root.playerWizard == SPIRIT_WIZARD);
         s = "UNITS MODE: ";
-        switch (root.friendUnitsMode)
+        if (root.setFriendsTarget)
         {
-            case FOLLOW_PLAYER_M:
-                s += "FOLLOW WIZARD";
-                break;
-            case DEFEND_POINT_M:
-                s += "DEFEND POINT"; 
-                break;
-            case ATTACK_M:
-                s += "ATTACK";
-                break;
-            default:
-                break;
+            s += "SET DEFEND POINT";
+        }
+        else
+        {
+            switch (root.friendUnitsMode)
+            {
+                case FOLLOW_PLAYER_M:
+                    s += "FOLLOW WIZARD";
+                    break;
+                case DEFEND_POINT_M:
+                    s += "DEFEND POINT"; 
+                    break;
+                case ATTACK_M:
+                    s += "ATTACK";
+                    break;
+                default:
+                    break;
+            }
         }
         unitsMode.Text = s;
     }

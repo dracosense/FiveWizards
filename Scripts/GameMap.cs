@@ -51,6 +51,7 @@ public class GameMap
         public int owner;
         public int randSeed;
         public bool generated;
+        public bool bossRoom;
 
         public Room()
         {
@@ -60,6 +61,7 @@ public class GameMap
             randSeed = rand.Next();
             rand = new Random(randSeed);
             generated = false;
+            bossRoom = false;
             owner = -1;
             sizeUR = new Vec2I();
             sizeDL = new Vec2I();
@@ -116,8 +118,8 @@ public class GameMap
         bool b = false;
         rand = new Random();
         size = new Vec2I();
-        teleports = new Vec2I[2 * towersNum * towerHeight];
-        teleportTo = new Vec2I[2 * towersNum * towerHeight]; // 
+        teleports = new Vec2I[(2 * towerHeight + 1) * towersNum];
+        teleportTo = new Vec2I[(2 * towerHeight + 1) * towersNum]; // 
         rooms = new List<Room>();
         mainRooms = new List<Room>();
         if (mainSize.x <= 0 || mainSize.x <= 0 || towersNum <= 0 || towerHeight < 0 ||
@@ -181,8 +183,20 @@ public class GameMap
                 genPos.y = j * (towerSize.y + MAP_FLOOR_DIST);
                 b = (j * floorsNum.x + i < towersNum * (towerHeight - 1));
                 GenMap(genPos, genPos + towerSize, new Vec2I(11, 11), new Vec2I(15, 15), 
-                new Vec2I(2, 2), new Vec2I(5, 5), new Vec2I(towersNum + x, towersNum + x + (b?2:1)), owners); // up and down, for end - only down
-                x += (b?2:1);
+                new Vec2I(2, 2), new Vec2I(5, 5), new Vec2I(towersNum + x, towersNum + x + 2), owners); // up and down, for end - only down
+                x += 2;
+                if (!b)
+                {
+                    if (mainRooms.Count == x + towersNum)
+                    {
+                        mainRooms[towersNum + x - 1].bossRoom = true;
+                        map[teleports[towersNum + x - 1].x, teleports[towersNum + x - 1].y].teleport = -1;
+                    }
+                    else
+                    {
+                        GD.Print("Boss room generation error");
+                    }
+                }
             }
         }
         if (towersNum > 0)
@@ -191,19 +205,22 @@ public class GameMap
             {
                 teleportTo[i] = teleports[towersNum + (towerHeight == 1?i:(2 * i))];
             }
-            for (int i = 0; i < towerHeight - 1; i++)
+            for (int i = 0; i < towerHeight; i++)
             {
                 for (int j = 0; j < towersNum; j++)
                 {
                     x = (2 * i + 1) * towersNum;
                     teleportTo[x + 2 * j] = teleports[(i == 0)?j:((x - 2 * towersNum) + 2 * j + 1)];
-                    teleportTo[x + 2 * j + 1] = teleports[x + 2 * towersNum + ((i == towerHeight - 2)?1:2) * j];
+                    if (i < towerHeight - 1)
+                    {
+                        teleportTo[x + 2 * j + 1] = teleports[x + 2 * (towersNum + j)];// + ((i == towerHeight - 2)?1:2) * j];
+                    }
                 }
             }
-            for (int i = 0; i < towersNum; i++)
+            /*for (int i = 0; i < towersNum; i++)
             {
                 teleportTo[i + teleports.Length - towersNum] = teleports[2 * i + teleports.Length - 3 * towersNum + 1]; 
-            }
+            }*/
         }
         //
     }

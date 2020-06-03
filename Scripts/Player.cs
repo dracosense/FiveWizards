@@ -77,6 +77,7 @@ public class Player : Unit
         //
         mainLight.OmniRange = effects[VISIBILITY_R_E].GetPower() * MAIN_P_LIGHT_BASE_R;
         //
+        model.MaterialOverride = wizardPMaterials[root.playerWizard];
         if (absMove)
         {
             move = new Vector2(Input.GetActionStrength("game_left") - Input.GetActionStrength("game_right"),
@@ -134,13 +135,13 @@ public class Player : Unit
         }
         if (move != Vector2.Zero)
         {
-            aPlayer.Play(wizardName[root.playerWizard] + "_move");
+            aPlayer.Play("wizard_move");
             SetRot(move.Angle());
             MoveAndSlide(new Vector3(speed * move.x, 0.0f, speed * move.y));
         }
         else
         {
-            aPlayer.Play(wizardName[root.playerWizard] + "_idle");
+            aPlayer.Play("wizard_idle");
         }
     }
 

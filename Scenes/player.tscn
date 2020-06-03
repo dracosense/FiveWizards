@@ -1,17 +1,17 @@
 [gd_scene load_steps=13 format=2]
 
-[ext_resource path="res://Models/blue_wizard/walk/1.obj" type="ArrayMesh" id=1]
-[ext_resource path="res://Models/blue_wizard/walk/3.obj" type="ArrayMesh" id=3]
-[ext_resource path="res://Models/blue_wizard/walk/0.obj" type="ArrayMesh" id=4]
-[ext_resource path="res://Models/blue_wizard/walk/2.obj" type="ArrayMesh" id=5]
+[ext_resource path="res://Models/wizard/move/2.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://Models/wizard/move/3.obj" type="ArrayMesh" id=2]
+[ext_resource path="res://Models/wizard/move/0.obj" type="ArrayMesh" id=3]
+[ext_resource path="res://Models/wizard/move/1.obj" type="ArrayMesh" id=4]
+[ext_resource path="res://Models/wizard/idle/1.obj" type="ArrayMesh" id=5]
 [ext_resource path="res://Scripts/Player.cs" type="Script" id=6]
-[ext_resource path="res://Models/blue_wizard/idle/1.obj" type="ArrayMesh" id=7]
-[ext_resource path="res://Models/blue_wizard/idle/0.obj" type="ArrayMesh" id=8]
+[ext_resource path="res://Models/wizard/idle/0.obj" type="ArrayMesh" id=7]
 [ext_resource path="res://Materials/main_m.tres" type="Material" id=9]
 [ext_resource path="res://Scripts/PlayerCamera.cs" type="Script" id=10]
 
 [sub_resource type="Animation" id=1]
-resource_name = "blue_wizard_idle"
+resource_name = "wizard_idle"
 length = 0.8
 loop = true
 tracks/0/type = "value"
@@ -24,10 +24,11 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.4 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 8 ), ExtResource( 7 ) ]
+"values": [ ExtResource( 7 ), ExtResource( 5 ) ]
 }
 
 [sub_resource type="Animation" id=2]
+resource_name = "wizard_move"
 length = 0.4
 loop = true
 tracks/0/type = "value"
@@ -40,7 +41,7 @@ tracks/0/keys = {
 "times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 4 ), ExtResource( 1 ), ExtResource( 5 ), ExtResource( 3 ) ]
+"values": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 1 ), ExtResource( 2 ) ]
 }
 
 [sub_resource type="BoxShape" id=3]
@@ -52,7 +53,7 @@ script = ExtResource( 6 )
 [node name="Model" type="MeshInstance" parent="."]
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0.1, 0 )
 material_override = ExtResource( 9 )
-mesh = ExtResource( 4 )
+mesh = ExtResource( 7 )
 material/0 = null
 
 [node name="MainLight" type="OmniLight" parent="Model"]
@@ -62,7 +63,7 @@ light_indirect_energy = 2.0
 omni_range = 10.0
 
 [node name="SideLight" type="OmniLight" parent="Model"]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.6875, 0.375 )
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.35, 0.6 )
 omni_range = 4.0
 
 [node name="APosObj" type="Spatial" parent="Model"]
@@ -70,8 +71,8 @@ transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.75, 0.375 )
 
 [node name="APlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Model")
-anims/blue_wizard_idle = SubResource( 1 )
-anims/blue_wizard_move = SubResource( 2 )
+anims/wizard_idle = SubResource( 1 )
+anims/wizard_move = SubResource( 2 )
 
 [node name="Collider" type="CollisionShape" parent="."]
 transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 1.5, 0 )

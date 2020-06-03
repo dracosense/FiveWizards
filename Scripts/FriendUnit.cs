@@ -82,7 +82,8 @@ public class FriendUnit : Unit
         }
         if (e != null)
         {
-            if (!TryArch(e.GlobalTransform.origin +SHOOT_BASE_TRANSLATION))
+            if ((e.GlobalTransform.origin - this.GlobalTransform.origin).Length() < UNIT_TARGET_DIST ||
+             !TryArch(e.GlobalTransform.origin +SHOOT_BASE_TRANSLATION))
             {
                 targetPos = e.GlobalTransform.origin;
             }

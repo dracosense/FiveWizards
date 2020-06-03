@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=33 format=2]
 
 [ext_resource path="res://MeshLibs/dungeon_lib.tres" type="MeshLibrary" id=1]
 [ext_resource path="res://Scripts/MainMap.cs" type="Script" id=2]
@@ -13,6 +13,13 @@
 [ext_resource path="res://Scripts/MinimapImage.cs" type="Script" id=11]
 [ext_resource path="res://Styles/simple.tres" type="StyleBox" id=12]
 [ext_resource path="res://Scripts/ActionButton.cs" type="Script" id=13]
+[ext_resource path="res://Textures/icons/plus.png" type="Texture" id=14]
+[ext_resource path="res://Textures/icons/heart.png" type="Texture" id=15]
+[ext_resource path="res://Textures/icons/cross.png" type="Texture" id=16]
+[ext_resource path="res://Textures/icons/sword.png" type="Texture" id=17]
+[ext_resource path="res://Textures/icons/shield.png" type="Texture" id=18]
+[ext_resource path="res://Textures/icons/arrow.png" type="Texture" id=19]
+[ext_resource path="res://Textures/icons/crystals_bar.png" type="Texture" id=20]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 0.3, 0.15, 0, 1 )
@@ -150,15 +157,14 @@ margin_bottom = 132.0
 color = Color( 0, 1, 0, 1 )
 
 [node name="Joystick" parent="GUILayer/GUI" instance=ExtResource( 7 )]
-visible = false
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -192.0
-margin_top = -192.0
-margin_right = 0.0
-margin_bottom = 0.0
+margin_left = -400.0
+margin_top = -404.0
+margin_right = -16.0
+margin_bottom = -16.0
 
 [node name="HealthBar" type="ProgressBar" parent="GUILayer/GUI"]
 margin_left = 20.0
@@ -199,6 +205,25 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="CrystalsBar" type="TextureProgress" parent="GUILayer/GUI"]
+anchor_left = 0.406
+anchor_right = 0.641
+margin_left = 0.255981
+margin_top = 8.0
+margin_right = -0.384033
+margin_bottom = 48.0
+grow_horizontal = 2
+grow_vertical = 2
+max_value = 6.0
+value = 1.0
+texture_under = ExtResource( 20 )
+texture_progress = ExtResource( 20 )
+tint_under = Color( 0.5, 0.5, 0.5, 0.627451 )
+tint_progress = Color( 0.8, 0.8, 0.8, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="UnitsMode" type="Label" parent="GUILayer/GUI"]
 margin_left = 20.0
 margin_top = 88.0
@@ -214,16 +239,17 @@ __meta__ = {
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 16.0
-margin_top = -80.0
-margin_right = 320.0
-margin_bottom = -16.0
+margin_top = -116.0
+margin_right = 312.0
+margin_bottom = -20.0
 __meta__ = {
+"_edit_group_": true,
 "_edit_use_anchors_": false
 }
 
 [node name="friends_follow_p_mode" type="Button" parent="GUILayer/GUI/UnitsModePanel"]
-margin_right = 98.0
-margin_bottom = 64.0
+margin_right = 96.0
+margin_bottom = 96.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/hover = ExtResource( 12 )
@@ -231,20 +257,26 @@ custom_styles/pressed = ExtResource( 12 )
 custom_styles/focus = ExtResource( 12 )
 custom_styles/disabled = ExtResource( 12 )
 custom_styles/normal = ExtResource( 12 )
-text = "FOLLOW"
 script = ExtResource( 13 )
 
 [node name="Image" type="TextureRect" parent="GUILayer/GUI/UnitsModePanel/friends_follow_p_mode"]
-margin_right = 40.0
-margin_bottom = 40.0
+self_modulate = Color( 0.6, 0.6, 0.6, 0.627451 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+texture = ExtResource( 19 )
+expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="friends_defend_point_mode" type="Button" parent="GUILayer/GUI/UnitsModePanel"]
-margin_left = 102.0
-margin_right = 200.0
-margin_bottom = 64.0
+margin_left = 100.0
+margin_right = 196.0
+margin_bottom = 96.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/hover = ExtResource( 12 )
@@ -252,20 +284,26 @@ custom_styles/pressed = ExtResource( 12 )
 custom_styles/focus = ExtResource( 12 )
 custom_styles/disabled = ExtResource( 12 )
 custom_styles/normal = ExtResource( 12 )
-text = "DEFEND"
 script = ExtResource( 13 )
 
 [node name="Image" type="TextureRect" parent="GUILayer/GUI/UnitsModePanel/friends_defend_point_mode"]
-margin_right = 40.0
-margin_bottom = 40.0
+self_modulate = Color( 0.6, 0.6, 0.6, 0.627451 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+texture = ExtResource( 18 )
+expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="friends_attack_mode" type="Button" parent="GUILayer/GUI/UnitsModePanel"]
-margin_left = 204.0
-margin_right = 304.0
-margin_bottom = 64.0
+margin_left = 200.0
+margin_right = 296.0
+margin_bottom = 96.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 custom_styles/hover = ExtResource( 12 )
@@ -273,12 +311,18 @@ custom_styles/pressed = ExtResource( 12 )
 custom_styles/focus = ExtResource( 12 )
 custom_styles/disabled = ExtResource( 12 )
 custom_styles/normal = ExtResource( 12 )
-text = "ATTACK"
 script = ExtResource( 13 )
 
 [node name="Image" type="TextureRect" parent="GUILayer/GUI/UnitsModePanel/friends_attack_mode"]
-margin_right = 40.0
-margin_bottom = 40.0
+self_modulate = Color( 0.6, 0.6, 0.6, 0.627451 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+texture = ExtResource( 17 )
+expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -286,8 +330,8 @@ __meta__ = {
 [node name="hide_map" type="Button" parent="GUILayer/GUI"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -40.0
-margin_bottom = 40.0
+margin_left = -64.0
+margin_bottom = 64.0
 custom_styles/hover = ExtResource( 12 )
 custom_styles/pressed = ExtResource( 12 )
 custom_styles/focus = ExtResource( 12 )
@@ -302,34 +346,59 @@ __meta__ = {
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 16.0
-margin_top = -160.0
-margin_right = 80.0
-margin_bottom = -96.0
+margin_top = -244.0
+margin_right = 112.0
+margin_bottom = -148.0
 custom_styles/hover = ExtResource( 12 )
 custom_styles/pressed = ExtResource( 12 )
 custom_styles/focus = ExtResource( 12 )
 custom_styles/disabled = ExtResource( 12 )
 custom_styles/normal = ExtResource( 12 )
-text = "Reg"
 script = ExtResource( 13 )
 __meta__ = {
+"_edit_group_": true,
 "_edit_use_anchors_": false
 }
+
+[node name="Image" type="TextureRect" parent="GUILayer/GUI/regenerate_player"]
+self_modulate = Color( 0.6, 0.6, 0.6, 0.627451 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+texture = ExtResource( 15 )
+expand = true
 
 [node name="create_unit" type="Button" parent="GUILayer/GUI"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 96.0
-margin_top = -160.0
-margin_right = 160.0
-margin_bottom = -96.0
+margin_left = 144.0
+margin_top = -244.0
+margin_right = 240.0
+margin_bottom = -148.0
 custom_styles/hover = ExtResource( 12 )
 custom_styles/pressed = ExtResource( 12 )
 custom_styles/focus = ExtResource( 12 )
 custom_styles/disabled = ExtResource( 12 )
 custom_styles/normal = ExtResource( 12 )
-text = "Create"
 script = ExtResource( 13 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Image" type="TextureRect" parent="GUILayer/GUI/create_unit"]
+self_modulate = Color( 0.6, 0.6, 0.6, 0.627451 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+texture = ExtResource( 14 )
+expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -338,16 +407,30 @@ __meta__ = {
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 344.0
-margin_top = -80.0
-margin_right = 408.0
-margin_bottom = -16.0
+margin_top = -116.0
+margin_right = 440.0
+margin_bottom = -20.0
 custom_styles/hover = ExtResource( 12 )
 custom_styles/pressed = ExtResource( 12 )
 custom_styles/focus = ExtResource( 12 )
 custom_styles/disabled = ExtResource( 12 )
 custom_styles/normal = ExtResource( 12 )
-text = "Destroy"
 script = ExtResource( 13 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Image" type="TextureRect" parent="GUILayer/GUI/destroy_units"]
+self_modulate = Color( 0.6, 0.6, 0.6, 0.627451 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+texture = ExtResource( 16 )
+expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }

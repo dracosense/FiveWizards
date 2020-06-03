@@ -93,8 +93,10 @@ public static class Lib
     public const float CAMP_GEN_CONST = 0.25f;
     public const float BASIC_ARROW_DAMAGE = 0.6f;
     public const float SPELL_DAMAGE = 0.7f;
-    public const float H_ARROW_DAMAGE = -1.0f;
+    public const float H_ARROW_DAMAGE = -0.8f;
     public const float NECROMANCER_ARROW_DAMAGE = 0.8f;
+    public const float ELEMENTAL_ARROW_DAMAGE = 0.6f;
+    public const float SPIRIT_ARROW_DAMAGE = 0.5f;
     public const float UNIT_TARGET_DIST = 1.2f;
     public const float FRIEND_UNIT_TELEPORT_DIST = 12.0f;
     public const float FRIEND_UNIT_MAX_GEN_DIST = 2.0f;
@@ -188,6 +190,7 @@ public static class Lib
     public static readonly PackedScene healEArrowPS = LoadPS("heal_e_arrow");
     public static readonly PackedScene necromancerEArrowPS = LoadPS("necromancer_e_arrow");
     public static readonly PackedScene elementalArrowPS = LoadPS("elemental_arrow");
+    public static readonly PackedScene spiritArrowPS = LoadPS("spirit_arrow");
     public static readonly PackedScene spellPS = LoadPS("spell");
     public static readonly PackedScene towerPS = LoadPS("tower");
     public static readonly PackedScene campPS = LoadPS("camp");
@@ -206,23 +209,22 @@ public static class Lib
     public static readonly PackedScene[] wizardTowers = {LoadPS("WizardTowers/red_tower"),
      LoadPS("WizardTowers/green_tower"), LoadPS("WizardTowers/blue_tower"), LoadPS("WizardTowers/gray_tower"),
       LoadPS("WizardTowers/purpure_tower"), LoadPS("WizardTowers/white_tower")};
-      public static readonly PackedScene[] unitArrow = {null, null, elementalArrowPS, null, null, null};
+      public static readonly PackedScene[] unitArrow = {null, null, elementalArrowPS, null, null, spiritArrowPS};
     public static readonly Mesh[] towerTModels = {LoadMesh("tower/tower0"), 
     LoadMesh("tower/tower1"), LoadMesh("tower/tower2")};
     public static readonly Material[] towerEMaterials = {LoadM("crystal_red_m"), LoadM("crystal_green_m"),
      LoadM("crystal_blue_m"), LoadM("crystal_orange_m"), LoadM("crystal_purpure_m"), LoadM("crystal_white_m")};
      public static readonly Material[] eMaterials = {LoadM("e_red_m"), LoadM("e_green_m"), 
      LoadM("e_blue_m"), LoadM("e_orange_m"), LoadM("e_purpure_m"), LoadM("e_white_m")};
-     //public static readonly Material[] wizardPMaterials = {LoadM("p_red"), LoadM("p_green"),
-      //LoadM("p_blue"), LoadM("p_orange"), LoadM("p_purpure"), LoadM("p_white")}
+     public static readonly Material[] wizardPMaterials = {LoadM("wizard/red_w_m"), LoadM("wizard/green_w_m"),
+      LoadM("wizard/blue_w_m"), LoadM("wizard/orange_w_m"), LoadM("wizard/purpure_w_m"), LoadM("wizard/white_w_m")};
      public static readonly string[] unitName = {"red", "green", "blue", "gray", "purpure", "white"};
-    public static readonly string[] wizardName = {"blue_wizard", "blue_wizard", "blue_wizard", "blue_wizard", "blue_wizard", "blue_wizard"}; //
      public static readonly float[] unitSpeed = {4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f};
-     public static readonly float[] unitShield = {0.3f, 0.3f, 0.3f, 0.3f, 0.2f, 0.4f};
-     public static readonly float[] unitDamage = {1.2f, 0.6f, 0.8f, 0.7f, 0.6f, 0.8f};
-     public static readonly float[] unitHealth = {5.0f, 7.0f, 6.0f, 3.0f, 4.0f, 6.0f};
+     public static readonly float[] unitShield = {0.3f, 0.3f, 0.3f, 0.3f, 0.2f, 0.2f};
+     public static readonly float[] unitDamage = {1.2f, 0.6f, 0.8f, 0.7f, 0.6f, 0.7f};
+     public static readonly float[] unitHealth = {5.0f, 7.0f, 6.0f, 3.0f, 4.0f, 5.0f};
      public static readonly uint[,] wizardUnits = {{0}, {1}, {2}, {3}, {4}, {5}};
-     public static readonly float[] wizardGenEConst = {1.2f, 0.8f, 1.0f, 1.8f, 2.0f, 1.0f};
+     public static readonly float[] wizardGenEConst = {1.2f, 0.8f, 1.0f, 1.8f, 2.0f, 2.0f};
 
     public static PackedScene LoadPS(string name)
     {

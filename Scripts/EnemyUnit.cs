@@ -7,6 +7,11 @@ public class EnemyUnit : Unit
 
     public Player target;
 
+    public bool CanAttackPlayer()
+    {
+        return ((Vec3ToVec2((root.playerPos - this.GlobalTransform.origin))).Length() <= ENEMY_ATTACK_PLAYER_DIST);
+    }
+
     public override void SetWCMask(KinematicBody body)
     {
         base.SetWCMask(body);
@@ -28,7 +33,7 @@ public class EnemyUnit : Unit
             v = Vec3ToVec2(target.GlobalTransform.origin - this.GlobalTransform.origin);
             if (v.Length() <= effects[VISIBILITY_R_E].GetPower() * ENEMY_V_RANGE)
             {
-                if (v.Length() > effects[VISIBILITY_R_E].GetPower() * ENEMY_ARCH_DIST || !TryArch(target.GlobalTransform.origin + SHOOT_BASE_TRANSLATION))
+                if (!CanAttackPlayer() || v.Length() > effects[VISIBILITY_R_E].GetPower() * ENEMY_ARCH_DIST || !TryArch(target.GlobalTransform.origin + SHOOT_BASE_TRANSLATION))
                 {
                     MoveOn(v);
                     SetAnim("move");
@@ -50,7 +55,7 @@ public class EnemyUnit : Unit
 
     public override void _Process(float delta)
     {
-        if (timeFromAttack >= attackTimeout && (Vec3ToVec2((root.playerPos - this.GlobalTransform.origin))).Length() <= ENEMY_ATTACK_PLAYER_DIST)
+        if (timeFromAttack >= attackTimeout && CanAttackPlayer())
         {
             root.player.Damage(damage, -1, -1);
             timeFromAttack = 0.0f;

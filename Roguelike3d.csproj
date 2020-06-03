@@ -58,6 +58,7 @@
     <Compile Include="Scripts\Arrow.cs" />
     <Compile Include="Scripts\BlueWTower.cs" />
     <Compile Include="Scripts\Camp.cs" />
+    <Compile Include="Scripts\ElementalArrow.cs" />
     <Compile Include="Scripts\EnemyUnit.cs" />
     <Compile Include="Scripts\FPS.cs" />
     <Compile Include="Scripts\FriendsPoint.cs" />
@@ -79,6 +80,7 @@
     <Compile Include="Scripts\RedWTower.cs" />
     <Compile Include="Scripts\Root.cs" />
     <Compile Include="Scripts\Spell.cs" />
+    <Compile Include="Scripts\SpiritArrow.cs" />
     <Compile Include="Scripts\Tower.cs" />
     <Compile Include="Scripts\Unit.cs" />
     <Compile Include="Scripts\WhiteWTower.cs" />

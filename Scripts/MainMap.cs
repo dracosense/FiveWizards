@@ -175,6 +175,19 @@ public class MainMap : GridMap
         redrawMap = false;
     }
 
+    public void SetRoomGenerated(int room)
+    {
+        root.playerInBattle = false;
+        if (room >= 0)
+        {
+            map.rooms[aRoom].generated = true;
+            if (map.rooms[aRoom].bossRoom && map.rooms[aRoom].owner != root.playerWizard)
+            {
+                root.winCrystals++;
+            }
+        }
+    }
+
     public override void _Ready()
     {
         root = (Root)GetNode("/root/root");
@@ -218,7 +231,7 @@ public class MainMap : GridMap
         c = map.GetCell(pMapPos);
         for (int i = 0; i < aRoomMonsters.Count;)
         {
-            if (aRoomMonsters[i].GetRef() == null) // not work
+            if (aRoomMonsters[i].GetRef() == null) 
             {
                 if (i != aRoomMonsters.Count)
                 {
@@ -234,9 +247,8 @@ public class MainMap : GridMap
         if (aRoom != -1 && aRoomMonsters.Count == 0 && !map.rooms[aRoom].generated)
         {
             map.SetREntrances(aRoom, FLOOR_TILE);
-            map.rooms[aRoom].generated = true;
+            SetRoomGenerated(aRoom);
             redrawMap = true;
-            root.playerInBattle = false;
         }
         if (c != null)
         {
@@ -266,9 +278,8 @@ public class MainMap : GridMap
                 if (lastARoom != -1 && !map.rooms[lastARoom].generated)
                 {
                     map.SetREntrances(lastARoom, FLOOR_TILE);
-                    map.rooms[lastARoom].generated = true;
+                    SetRoomGenerated(lastARoom);
                     redrawMap = true;
-                    root.playerInBattle = false;
                     for (int i = 0; i < aRoomMonsters.Count; i++)
                     {
                         if (aRoomMonsters[i] != null && !aRoomMonsters[i].IsQueuedForDeletion())
@@ -282,8 +293,8 @@ public class MainMap : GridMap
                 {
                     if (map.rooms[aRoom].owner == root.playerWizard || map.rooms[aRoom].owner < 0)
                     {
-                        map.rooms[aRoom].generated = true;
-                        // redrawMap = true // ??
+                        SetRoomGenerated(aRoom);
+                        // ?? redraw map ?? 
                     }
                     else
                     {

@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/0.obj-b98705307990a0fd8d65d9298899999c.mesh"
+
+[deps]
+
+files=[ "res://.import/0.obj-b98705307990a0fd8d65d9298899999c.mesh" ]
+
+source_file="res://Models/wizard/attack/0.obj"
+dest_files=[ "res://.import/0.obj-b98705307990a0fd8d65d9298899999c.mesh", "res://.import/0.obj-b98705307990a0fd8d65d9298899999c.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( -0.95, -2, 0.95 )
+optimize_mesh=true
