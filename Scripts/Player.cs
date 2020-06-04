@@ -36,6 +36,7 @@ public class Player : Unit
             if (s != null)
             {
                 s.speed = SPELL_SPEED * (new Vector3(v.x, 0.0f, v.z).Normalized());
+                s.damage *= root.pBoosts[3] * root.wizardClockConst[root.playerWizard]; // spell damage
                 s.wizard = (int)root.playerWizard;
             }
             else
@@ -53,9 +54,9 @@ public class Player : Unit
 
     public override void _Ready()
     {
-        maxHealth = 30.0f;
-        speed = 8.0f;
-        shield = 0.2f;
+        maxHealth = PLAYER_MAX_HEALTH;
+        speed = PLAYER_SPEED;
+        shield = PLAYER_SHIELD;
         randScaled = false;
         randRotated = false;
         base._Ready();
@@ -72,6 +73,8 @@ public class Player : Unit
     public override void _PhysicsProcess(float delta) // light scale
     {
         float x = 0.0f, y = 0.0f;
+        shield = root.pBoosts[0] * PLAYER_SHIELD; // set player shield
+        speed = root.pBoosts[2] * PLAYER_SPEED; // set player speed 
         root.playerPos = this.GlobalTransform.origin;
         move = Vector2.Zero;
         //

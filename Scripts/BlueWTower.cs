@@ -31,7 +31,7 @@ public class BlueWTower : KinematicBody
             unit = enemies[root.rand.Next() % enemies.Count] as Unit;
             if (unit != null)
             {
-                unit.Damage(BLUE_W_TOWER_DAMAGE, -1, -1);
+                unit.Damage(root.wizardClockConst[ELEMENTAL_WIZARD] * BLUE_W_TOWER_DAMAGE, -1, -1);
             }
             else
             {

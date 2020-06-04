@@ -6,12 +6,13 @@ public class GreenWTower : WTower
 {
 
     protected WeakRef quardian = null;
-    protected float genUnitTimeout = 24.0f;
+    protected float genUnitTimeout = 30.0f;
     protected float timeFromGenUnit;
 
     public override void _Ready()
     {
         base._Ready();
+        wizard = NATURE_WIZARD;
         weaponPS = healEArrowPS;
         weaponSpeed = ARROW_SPEED;
         timeFromGenUnit = genUnitTimeout;
@@ -30,7 +31,7 @@ public class GreenWTower : WTower
             new Vector3((float)(root.rand.NextDouble() - 0.5f), 0.0f, (float)(root.rand.NextDouble() - 0.5f)))) as Unit;
             if (unit != null)
             {
-                unit.SetType(wizardUnits[NATURE_WIZARD, 0]);
+                unit.SetType(wizardUnits[NATURE_WIZARD, 0], NATURE_WIZARD);
                 quardian = WeakRef(unit);
                 timeFromGenUnit = 0.0f;
             }

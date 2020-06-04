@@ -9,9 +9,9 @@ public class FriendUnit : Unit
 
     protected Vector3 genPos;
     
-    public override void SetType(uint t)
+    public override void SetType(uint t, int _wizard)
     {
-        base.SetType(t);
+        base.SetType(t, _wizard);
         health *= FRIEND_H_CONST;
         damage *= FRIEND_D_CONST;
         speed = FRIEND_SPEED;
@@ -34,7 +34,7 @@ public class FriendUnit : Unit
         base._Ready();
         root.friendUnitsNum++;
         this.Scale = 1.2f * (new Vector3(1.0f, 1.0f, 1.0f));
-        SetType(wizardUnits[root.playerWizard, 0]);
+        SetType(wizardUnits[root.playerWizard, 0], (int)root.playerWizard);
         //this.GlobalTransform = new Transform(this.GlobalTransform.basis, Vector3.Inf);
     }
 
@@ -42,6 +42,11 @@ public class FriendUnit : Unit
     {
         Vector2 v;
         EnemyUnit e = null;
+        if (type >= 0)
+        {
+            damage = root.pBoosts[4] * unitDamage[type];
+            shield = root.pBoosts[5] * unitShield[type];
+        }
         //
         if (effects[HEALTH_E].sTime + EFFECT_TIME < root.time && !root.playerInBattle && root.playerAtHome) // ??
         {
@@ -88,7 +93,16 @@ public class FriendUnit : Unit
                 targetPos = e.GlobalTransform.origin;
             }
         }
+        if (root.clockSector == -1) // orange fog
+        {
+            targetPos = root.playerPos;
+        }
         v = Vec3ToVec2(targetPos - this.GlobalTransform.origin);
+        if (root.clockSector == -1 && timeFromAttack >= attackTimeout && v.Length() < ENEMY_ATTACK_PLAYER_DIST)
+        {
+            Attack(root.player);
+            timeFromAttack = 0.0f;
+        }
         if (v.Length() < UNIT_TARGET_DIST)
         {
             SetAnim("idle");

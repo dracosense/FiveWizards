@@ -1,0 +1,23 @@
+[gd_resource type="Animation" load_steps=5 format=2]
+
+[ext_resource path="res://Models/wizard/move/2.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://Models/wizard/move/3.obj" type="ArrayMesh" id=2]
+[ext_resource path="res://Models/wizard/move/0.obj" type="ArrayMesh" id=3]
+[ext_resource path="res://Models/wizard/move/1.obj" type="ArrayMesh" id=4]
+
+[resource]
+resource_name = "wizard_move"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 3 ), ExtResource( 4 ), ExtResource( 1 ), ExtResource( 2 ) ]
+}

@@ -122,6 +122,15 @@ public static class Lib
     public const float WIZARD_T_GEN_CONST = 0.8f;
     public const float ENEMY_V_RANGE = 12.0f;
     public const float ENEMY_ARCH_DIST = 6.0f;
+    public const float P_POSITIVE_BOOST_C = 0.05f;
+    public const float P_NEGATIVE_BOOST_C = -0.1f;
+    public const float CLOCK_PERIOD  = 360.0f;
+    public const float C_SECTOR_SIZE = 24.0f;
+    public const float CLOCK_P_SPEED = 0.7f;
+    public const float POPUP_CHANGE_A_SPEED = 0.2f;
+    public const float PLAYER_MAX_HEALTH = 30.0f;
+    public const float PLAYER_SHIELD = 0.2f;
+    public const float PLAYER_SPEED = 8.0f;
     // effect constants
     public const float ATTACK_E_CONST = 0.6f;
     public const float SPEED_E_CONST = 0.4f;
@@ -129,6 +138,7 @@ public static class Lib
     public const float SHIELD_E_CONST = 0.6f;
     public const float HEALTH_E_CONST = 0.3f;
     public const float VISIBILITY_R_E_CONST = 0.4f;
+    public const float WIZARD_C_C_LEN = 1.0f;
     //
     public const int EMPTY_TILE = -1;
     public const int BLOCK_TILE = 0;
@@ -154,6 +164,7 @@ public static class Lib
     public const int PLAYER_M_BIT = 1;
     public const int ENEMY_M_BIT = 2;
     public const int FRIEND_M_BIT = 5;
+    public const int PLAYER_BOOST_NUM = 6;
     // wizards
     public const int MONSTER_WIZARD = 0;
     public const int NATURE_WIZARD = 1;
@@ -165,6 +176,7 @@ public static class Lib
     public const int NULL_STRUCT = -1;
     public const int CAMP_STRUCT = 0;
     public const int TOWER_STRUCT = 1;
+    public const int ALTAR_STRUCT = 2;
     // effect types
     public const int ATTACK_E = 0; 
     public const int SPEED_E = 1; 
@@ -194,12 +206,15 @@ public static class Lib
     public static readonly PackedScene spellPS = LoadPS("spell");
     public static readonly PackedScene towerPS = LoadPS("tower");
     public static readonly PackedScene campPS = LoadPS("camp");
+    public static readonly PackedScene altarPS = LoadPS("altar");
     public static readonly PackedScene enemyUnitPS = LoadPS("enemy_unit");
     public static readonly PackedScene friendUnitPS = LoadPS("friend_unit");
+    public static readonly PackedScene bossPS = LoadPS("boss");
     public static readonly Material damagedUnitM = LoadM("damaged_unit_m");
     public static readonly Material unitM = LoadM("main_m");
-    public static readonly Vec2I MAIN_MAP_SIZE = new Vec2I(120, 120);
-    public static readonly Vec2I MAP_T_FLOOR_SIZE = new Vec2I(60, 60);
+    public static readonly Material unitOrangeFogM = LoadM("orange_fog_units_m");
+    public static readonly Vec2I MAIN_MAP_SIZE = new Vec2I(100, 100);
+    public static readonly Vec2I MAP_T_FLOOR_SIZE = new Vec2I(50, 50);
     public static readonly Vec2I CAMP_UNITS_NUM = new Vec2I(2, 4);
     public static readonly Vec2I ROOM_MONSTERS_NUM = new Vec2I(4, 6);
     public static readonly Vector3 SHOOT_BASE_TRANSLATION = new Vector3(0.0f, 0.25f * MAP_CELL_SIZE, 0.0f);
@@ -219,12 +234,15 @@ public static class Lib
      public static readonly Material[] wizardPMaterials = {LoadM("wizard/red_w_m"), LoadM("wizard/green_w_m"),
       LoadM("wizard/blue_w_m"), LoadM("wizard/orange_w_m"), LoadM("wizard/purpure_w_m"), LoadM("wizard/white_w_m")};
      public static readonly string[] unitName = {"red", "green", "blue", "gray", "purpure", "white"};
+     public static readonly string[] pBoostName = {"shield boost", "mana gen boost", "speed boost", "spell damage boost", "friends damage boost", "friends shield boost"};
      public static readonly float[] unitSpeed = {4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f};
      public static readonly float[] unitShield = {0.3f, 0.3f, 0.3f, 0.3f, 0.2f, 0.2f};
      public static readonly float[] unitDamage = {1.2f, 0.6f, 0.8f, 0.7f, 0.6f, 0.7f};
      public static readonly float[] unitHealth = {5.0f, 7.0f, 6.0f, 3.0f, 4.0f, 5.0f};
      public static readonly uint[,] wizardUnits = {{0}, {1}, {2}, {3}, {4}, {5}};
      public static readonly float[] wizardGenEConst = {1.2f, 0.8f, 1.0f, 1.8f, 2.0f, 2.0f};
+     public static readonly int[] clockSectors = {0, 0, 1, 1, -1, 2, 2, 3, 3, -1, 4, 4, 5, 5, -1};
+     public static readonly float[] wizardClockPos = {24.0f, 72.0f, 144.0f, 192.0f, 264.0f, 312.0f};
 
     public static PackedScene LoadPS(string name)
     {

@@ -1,0 +1,19 @@
+[remap]
+
+importer="wavefront_obj"
+type="Mesh"
+path="res://.import/altar.obj-b03863f52686d8cc05e052c82c6ec726.mesh"
+
+[deps]
+
+files=[ "res://.import/altar.obj-b03863f52686d8cc05e052c82c6ec726.mesh" ]
+
+source_file="res://Models/altar.obj"
+dest_files=[ "res://.import/altar.obj-b03863f52686d8cc05e052c82c6ec726.mesh", "res://.import/altar.obj-b03863f52686d8cc05e052c82c6ec726.mesh" ]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3( 1, 1, 1 )
+offset_mesh=Vector3( -2, -2, 2 )
+optimize_mesh=true

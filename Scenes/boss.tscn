@@ -1,0 +1,29 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scenes/enemy_unit.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Models/units/blue/idle/0.obj" type="ArrayMesh" id=2]
+[ext_resource path="res://Scripts/Boss.cs" type="Script" id=3]
+[ext_resource path="res://Models/units/blue/idle/1.obj" type="ArrayMesh" id=4]
+
+[sub_resource type="Animation" id=1]
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 2 ), ExtResource( 4 ) ]
+}
+
+[node name="Boss" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
+
+[node name="Model" parent="." index="0"]
+mesh = ExtResource( 2 )
+
+[node name="APlayer" parent="." index="2"]
+anims/unit = SubResource( 1 )

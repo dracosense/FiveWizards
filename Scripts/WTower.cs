@@ -11,6 +11,7 @@ public class WTower : Area
     protected float weaponSpeed = ARROW_SPEED;
     protected float timeFromAttack;
     protected float attackTimeout = 2.0f;
+    protected int wizard = -1;
 
     public virtual void Attack(Unit unit)
     {
@@ -18,6 +19,10 @@ public class WTower : Area
         if (arrow != null)
         {
             arrow.speed = weaponSpeed * ((unit.GlobalTransform.origin + SHOOT_BASE_TRANSLATION - archPos.GlobalTransform.origin).Normalized());
+            if (wizard >= 0) 
+            {
+                arrow.damage *= root.wizardClockConst[wizard];
+            }
         }
         else
         {

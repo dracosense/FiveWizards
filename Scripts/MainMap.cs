@@ -72,7 +72,7 @@ public class MainMap : GridMap
         return map.rooms[room].owner;
     }
 
-    public void GenMonsters(int r, int num, uint type)
+    public void GenMonsters(PackedScene ps, int r, int num, uint type, int wizard)
     {
         Room room = map.rooms[r];
         Unit unit;
@@ -84,32 +84,65 @@ public class MainMap : GridMap
             Vector3 wPos = MapToWorld(rPos.x + rRandPos.x, 0, rPos.y + rRandPos.y) +
             new Vector3((float)root.rand.NextDouble() - 0.5f, 0.0f, (float)root.rand.NextDouble() - 0.5f);
             wPos.y = 0.1f;
-            unit = (Unit)root.CreateObj(enemyUnitPS, wPos);
-            unit.SetType(type);
-            aRoomMonsters.Add(WeakRef(unit));
+            unit = root.CreateObj(ps, wPos) as Unit;
+            if (unit != null)
+            {
+                unit.SetType(type, wizard);
+                aRoomMonsters.Add(WeakRef(unit));
+            }
+            else
+            {
+                GD.Print("Gen map monster error.");
+            }
         }
     }
 
-    public void CreateStruct(Vec2I pos, int s, int owner)
+    public void CreateStruct(Vec2I pos, int s, int owner, int room)
     {
         PackedScene ps = null;
+        Spatial obj;
         switch(s)
         {
             case CAMP_STRUCT:
                 ps = campPS;
                 break;
             case TOWER_STRUCT:
-                if (owner >= 0)
+                if (owner >= 0 && room >= 0 && !map.rooms[room].bossRoom)
                 {
                     ps = wizardTowers[owner];
                 } 
+                break;
+            case ALTAR_STRUCT:
+                    if (owner >= 0)
+                    {
+                        ps = altarPS; 
+                    }
                 break;
             default:
                 break;
         }
         if (ps != null)
         {
-            root.CreateObj(ps, MapToWorld(pos.x, 0, pos.y));
+            obj = root.CreateObj(ps, MapToWorld(pos.x, 0, pos.y));
+            if (s == ALTAR_STRUCT && owner >= 0)
+            {
+                if (obj is Altar)
+                {
+                    ((Altar)obj).wizard = (uint)owner;
+                    if (room >= 0)
+                    {
+                        ((Altar)obj).room = map.rooms[room];
+                    }
+                    else
+                    {
+                        ((Altar)obj).room = null;
+                    }
+                }
+                else
+                {
+                    GD.Print("Set altar owner error.");
+                }
+            }
         }
     }
 
@@ -160,7 +193,7 @@ public class MainMap : GridMap
                         {
                             if (x != root.playerWizard)
                             {
-                                CreateStruct(new Vec2I(i, j), c.structure, x);
+                                CreateStruct(new Vec2I(i, j), c.structure, x, c.room);
                             }
                             c.structure = NULL_STRUCT;
                         }
@@ -181,10 +214,11 @@ public class MainMap : GridMap
         if (room >= 0)
         {
             map.rooms[aRoom].generated = true;
-            if (map.rooms[aRoom].bossRoom && map.rooms[aRoom].owner != root.playerWizard)
+            root.AddPBoost(true);
+            /*if (map.rooms[aRoom].bossRoom && map.rooms[aRoom].owner != root.playerWizard)
             {
                 root.winCrystals++;
-            }
+            }*/
         }
     }
 
@@ -263,9 +297,10 @@ public class MainMap : GridMap
                 {
                     root.playerAtHome = false;
                 }
-                if (c.teleport >= 0 && Input.IsActionJustPressed("teleport"))
+                if (c.teleport >= 0 && Input.IsActionJustPressed("action"))
                 {
                     v = map.teleportTo[c.teleport];
+                    root.pFloor = map.tToFloor[c.teleport];
                     root.SetPPos(MapToWorld(v.x, 0, v.y));
                 }
             }
@@ -300,7 +335,19 @@ public class MainMap : GridMap
                     {
                         map.SetREntrances(aRoom, BLOCK_TILE);
                         x = (int)(wizardGenEConst[map.rooms[aRoom].owner] * (root.rand.Next()  % (ROOM_MONSTERS_NUM.y - ROOM_MONSTERS_NUM.x) + ROOM_MONSTERS_NUM.x)); 
-                        GenMonsters(aRoom, x, wizardUnits[map.rooms[aRoom].owner, 0]);
+                        GenMonsters(enemyUnitPS, aRoom, x, wizardUnits[map.rooms[aRoom].owner, 0], map.rooms[aRoom].owner);
+                        if (map.rooms[aRoom].bossRoom)
+                        {
+                            GenMonsters(bossPS, aRoom, 1, 0, map.rooms[aRoom].owner);
+                            if (aRoomMonsters.Count == x + 1)
+                            {
+                                root.aBoss = WeakRef(aRoomMonsters[aRoomMonsters.Count - 1]);
+                            }
+                            else
+                            {
+                                GD.Print("Room monsters gen error.");
+                            }
+                        }
                         redrawMap = true;
                         root.playerInBattle = true;
                     }

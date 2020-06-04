@@ -29,10 +29,12 @@ public class Unit : KinematicBody
     protected float timeFromDamage;
     protected float damagedTimeout = 0.1f;
     protected int type = -1;
+    protected int wizard = -1;
     protected int  lastDFromW = -1; 
     protected bool damaged;
     protected bool randScaled = true;
     protected bool randRotated = true;
+    protected bool attackUnitsInRange;
 
     public float GetHealth()
     {
@@ -44,7 +46,7 @@ public class Unit : KinematicBody
         return maxHealth;
     }
 
-    public void SetAnim(string s)
+    public virtual void SetAnim(string s)
     {
         if (type >= 0)
         {
@@ -70,6 +72,10 @@ public class Unit : KinematicBody
             {
                 SetWCMask(a);
                 a.speed = UNIT_ARROW_SPEED * ((pos - archPos.GlobalTransform.origin).Normalized());
+                if (wizard >= 0)
+                {
+                    a.damage *= root.wizardClockConst[wizard];
+                }
                 timeFromAttack = 0.0f;
                 return true;
             }
@@ -82,13 +88,19 @@ public class Unit : KinematicBody
         return false;
     }
 
-    public virtual void SetType(uint t)
+    public virtual void SetType(uint t, int _wizard)
     {
         type = (int)t;
         health = maxHealth = unitHealth[t];
         speed = unitSpeed[t];
         shield = unitShield[t];
         damage = unitDamage[t];
+        wizard = _wizard;
+    }
+
+    public virtual void Attack(Unit unit)
+    {
+        unit.Damage(((wizard < 0)?1.0f:root.wizardClockConst[wizard]) * effects[ATTACK_E].GetPower() * damage, -1, -1);
     }
 
     public void Damage(float d, int e, int fromW)
@@ -127,7 +139,7 @@ public class Unit : KinematicBody
         bool b = (lastDFromW == root.playerWizard);
         if (b)
         {
-            root.magicE = Mathf.Min(root.magicE + UNIT_M_E_ADD, MAX_MAGIC_E);
+            root.magicE = Mathf.Min(root.magicE + root.pBoosts[1] * UNIT_M_E_ADD, MAX_MAGIC_E); // add magic energy 
         }
         if (lastDFromW == NECROMANCER_WIZARD && type != x && root.rand.NextDouble() < SKELETON_GEN_CONST)
         {
@@ -144,11 +156,11 @@ public class Unit : KinematicBody
             {
                 if (b)
                 {
-                    ((FriendUnit)obj).SetType(x);
+                    ((FriendUnit)obj).SetType(x, NECROMANCER_WIZARD);
                 }
                 else
                 {
-                    obj.SetType(x);
+                    obj.SetType(x, NECROMANCER_WIZARD);
                 }
             }
             else
@@ -192,6 +204,7 @@ public class Unit : KinematicBody
         timeFromDamage = 0;
         health = maxHealth;
         damaged = false;
+        attackUnitsInRange = true;
     }
 
     public override void _Process(float delta)
@@ -201,6 +214,8 @@ public class Unit : KinematicBody
         int x = 0;
         v = this.GlobalTransform.origin;
         v.y = 0.0f; 
+        attackUnitsInRange = (root.clockSector != -1);
+        model.MaterialOverride = ((root.clockSector == -1)?unitOrangeFogM:unitM);
         this.GlobalTransform = new Transform(this.GlobalTransform.basis, v);
         for (int i = 0; i < effects.Length; i++)
         {
@@ -230,13 +245,13 @@ public class Unit : KinematicBody
         {
             var aRangeE = aRange.GetOverlappingBodies();
             x = root.rand.Next();
-            if (timeFromAttack >= attackTimeout && aRangeE.Count > 0) 
+            if (timeFromAttack >= attackTimeout && aRangeE.Count > 0 && attackUnitsInRange) 
             {
                 x %= aRangeE.Count;
                 if (aRangeE[x] is Unit)
                 {
                     unit = (Unit)aRangeE[x]; 
-                    unit.Damage(effects[ATTACK_E].GetPower() * damage, -1, -1); //
+                    Attack(unit); //
                     if (unit.GetHealth() <= 0.0f && type == ENT_TYPE)
                     {
                         maxHealth += ENT_ADD_HEALTH;

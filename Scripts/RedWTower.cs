@@ -36,7 +36,7 @@ public class RedWTower : Area
             unit = root.CreateObj(enemyUnitPS, this.GlobalTransform.origin + MAP_CELL_SIZE * new Vector3((float)(root.rand.NextDouble() - 0.5f), 0.0f, (float)(root.rand.NextDouble() - 0.5f))) as Unit;
             if (unit != null)
             {
-                unit.SetType(wizardUnits[MONSTER_WIZARD, 0]);
+                unit.SetType(wizardUnits[MONSTER_WIZARD, 0], MONSTER_WIZARD);
             }
             else
             {

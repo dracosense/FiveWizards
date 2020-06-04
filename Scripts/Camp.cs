@@ -38,11 +38,11 @@ public class Camp : Area
             }
             if (root.playerWizard == WAR_WIZARD)
             {
-                ((FriendUnit)obj).SetType(WAR_WIZARD);
+                ((FriendUnit)obj).SetType(wizardUnits[WAR_WIZARD, 0], WAR_WIZARD);
             }
             else
             {
-                obj.SetType(WAR_WIZARD);
+                obj.SetType(wizardUnits[WAR_WIZARD, 0], WAR_WIZARD);
             }
         }
     }

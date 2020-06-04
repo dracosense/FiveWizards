@@ -57,7 +57,7 @@ public class EnemyUnit : Unit
     {
         if (timeFromAttack >= attackTimeout && CanAttackPlayer())
         {
-            root.player.Damage(damage, -1, -1);
+            Attack(root.player);
             timeFromAttack = 0.0f;
         }
         base._Process(delta);

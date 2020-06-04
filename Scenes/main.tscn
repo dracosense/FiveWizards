@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://MeshLibs/dungeon_lib.tres" type="MeshLibrary" id=1]
 [ext_resource path="res://Scripts/MainMap.cs" type="Script" id=2]
@@ -21,6 +21,11 @@
 [ext_resource path="res://Textures/icons/arrow.png" type="Texture" id=19]
 [ext_resource path="res://Textures/icons/crystals_bar.png" type="Texture" id=20]
 [ext_resource path="res://Textures/icons/teleport.png" type="Texture" id=21]
+[ext_resource path="res://Textures/clock/progress_small.png" type="Texture" id=22]
+[ext_resource path="res://Textures/clock/clock_small.png" type="Texture" id=23]
+[ext_resource path="res://Fonts/font32.tres" type="DynamicFont" id=24]
+[ext_resource path="res://Fonts/font64.tres" type="DynamicFont" id=25]
+[ext_resource path="res://Fonts/font16.tres" type="DynamicFont" id=26]
 
 [sub_resource type="SpatialMaterial" id=1]
 albedo_color = Color( 0.3, 0.15, 0, 1 )
@@ -57,6 +62,14 @@ bg_color = Color( 0, 0, 0.4, 1 )
 bg_color = Color( 0, 0, 0, 0.745098 )
 
 [sub_resource type="StyleBoxEmpty" id=12]
+
+[sub_resource type="OpenSimplexNoise" id=13]
+period = 128.0
+
+[sub_resource type="NoiseTexture" id=14]
+width = 1600
+height = 900
+noise = SubResource( 13 )
 
 [node name="Game" type="Spatial"]
 
@@ -103,16 +116,6 @@ environment = SubResource( 5 )
 
 [node name="GUILayer" type="CanvasLayer" parent="."]
 
-[node name="Label" type="Label" parent="GUILayer"]
-margin_right = 88.0
-margin_bottom = 14.0
-custom_colors/font_color = Color( 0.25, 0.25, 0.25, 1 )
-text = "FPS:"
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="GUI" type="Control" parent="GUILayer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -156,6 +159,17 @@ margin_top = 124.0
 margin_right = 132.0
 margin_bottom = 132.0
 color = Color( 0, 1, 0, 1 )
+
+[node name="FPS" type="Label" parent="GUILayer/GUI"]
+margin_left = 8.0
+margin_right = 96.0
+margin_bottom = 19.0
+custom_fonts/font = ExtResource( 26 )
+text = "FPS:"
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Joystick" parent="GUILayer/GUI" instance=ExtResource( 7 )]
 anchor_left = 1.0
@@ -225,13 +239,67 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Clock" type="TextureProgress" parent="GUILayer/GUI"]
+margin_left = 144.0
+margin_top = 144.0
+margin_right = 336.0
+margin_bottom = 336.0
+max_value = 360.0
+value = 120.0
+texture_under = ExtResource( 23 )
+texture_progress = ExtResource( 22 )
+fill_mode = 4
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Background" type="ColorRect" parent="GUILayer/GUI/Clock"]
+visible = false
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -10.0
+margin_top = -10.0
+margin_right = 10.0
+margin_bottom = 10.0
+color = Color( 0.1, 0.1, 0.1, 0.752941 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="UnitsMode" type="Label" parent="GUILayer/GUI"]
 margin_left = 20.0
 margin_top = 88.0
 margin_right = 324.0
 margin_bottom = 112.0
-text = "UNITS MODE: "
+custom_fonts/font = ExtResource( 24 )
+text = "UNITS MODE:"
 valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Message" type="Label" parent="GUILayer/GUI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 25 )
+text = "Message"
+align = 1
+valign = 1
+uppercase = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Time" type="Label" parent="GUILayer/GUI"]
+margin_left = 416.0
+margin_right = 552.0
+margin_bottom = 24.0
+custom_fonts/font = ExtResource( 26 )
+text = "TIME: "
+valign = 1
+uppercase = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -435,7 +503,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="teleport" type="Button" parent="GUILayer/GUI"]
+[node name="action" type="Button" parent="GUILayer/GUI"]
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 16.0
@@ -453,7 +521,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Image" type="TextureRect" parent="GUILayer/GUI/teleport"]
+[node name="Image" type="TextureRect" parent="GUILayer/GUI/action"]
 self_modulate = Color( 0.6, 0.6, 0.6, 0.627451 )
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -463,6 +531,16 @@ margin_right = -10.0
 margin_bottom = -10.0
 texture = ExtResource( 21 )
 expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="OrangeFog" type="TextureRect" parent="GUILayer/GUI"]
+visible = false
+self_modulate = Color( 1, 0.627451, 0, 0.501961 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = SubResource( 14 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -494,5 +572,5 @@ script = ExtResource( 6 )
 [connection signal="button_up" from="GUILayer/GUI/create_unit" to="GUILayer/GUI/create_unit" method="_on_button_up"]
 [connection signal="button_down" from="GUILayer/GUI/destroy_units" to="GUILayer/GUI/destroy_units" method="_on_button_down"]
 [connection signal="button_up" from="GUILayer/GUI/destroy_units" to="GUILayer/GUI/destroy_units" method="_on_button_up"]
-[connection signal="button_down" from="GUILayer/GUI/teleport" to="GUILayer/GUI/teleport" method="_on_button_down"]
-[connection signal="button_up" from="GUILayer/GUI/teleport" to="GUILayer/GUI/teleport" method="_on_button_up"]
+[connection signal="button_down" from="GUILayer/GUI/action" to="GUILayer/GUI/action" method="_on_button_down"]
+[connection signal="button_up" from="GUILayer/GUI/action" to="GUILayer/GUI/action" method="_on_button_up"]

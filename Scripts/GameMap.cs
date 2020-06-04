@@ -102,6 +102,7 @@ public class GameMap
     public List<Room> mainRooms;
     public Vec2I[] teleports;
     public Vec2I[] teleportTo;
+    public Vec2I[] tToFloor;
     public int[]  towerOwners;
     public Vec2I size;
     public int type;
@@ -111,6 +112,7 @@ public class GameMap
     public GameMap(Vec2I mainSize, Vec2I towerSize, int towersNum, int towerHeight, int playerTower) // main floor + towers for each teleport with towerHeight floors
     {
         int[] owners = null;
+        Room room = null;
         Vec2I floorsNum = new Vec2I();
         Vec2I genPos = new Vec2I();
         int x = 0;
@@ -120,6 +122,7 @@ public class GameMap
         size = new Vec2I();
         teleports = new Vec2I[(2 * towerHeight + 1) * towersNum];
         teleportTo = new Vec2I[(2 * towerHeight + 1) * towersNum]; // 
+        tToFloor = new Vec2I[(2 * towerHeight + 1) * towersNum];
         rooms = new List<Room>();
         mainRooms = new List<Room>();
         if (mainSize.x <= 0 || mainSize.x <= 0 || towersNum <= 0 || towerHeight < 0 ||
@@ -170,7 +173,7 @@ public class GameMap
             }
         }
         GenMap(new Vec2I(0, 0), mainSize, new Vec2I(11, 11), new Vec2I(15, 15), 
-        new Vec2I(2, 2), new Vec2I(5, 5), new Vec2I(0, towersNum), towerOwners, towerOwners[playerTower]); // main floor
+        new Vec2I(2, 2), new Vec2I(5, 5), new Vec2I(0, towersNum), towerOwners, towerOwners[playerTower], 0, 0); // main floor
         //
         x = 0;
         for (int j = 0; j < floorsNum.y; j++)
@@ -179,18 +182,23 @@ public class GameMap
             {
                 y = towerOwners[(j * floorsNum.x + i) % towersNum];
                 owners = new int[]{y, y};
-                genPos.x = mainSize.x + MAP_FLOOR_DIST + (i * towerSize.x + MAP_FLOOR_DIST);
+                genPos.x = mainSize.x + MAP_FLOOR_DIST + i * (towerSize.x + MAP_FLOOR_DIST);
                 genPos.y = j * (towerSize.y + MAP_FLOOR_DIST);
                 b = (j * floorsNum.x + i < towersNum * (towerHeight - 1));
                 GenMap(genPos, genPos + towerSize, new Vec2I(11, 11), new Vec2I(15, 15), 
-                new Vec2I(2, 2), new Vec2I(5, 5), new Vec2I(towersNum + x, towersNum + x + 2), owners); // up and down, for end - only down
+                new Vec2I(2, 2), new Vec2I(5, 5), new Vec2I(towersNum + x, towersNum + x + 2), 
+                owners, -1, WIZARD_T_GEN_CONST, CAMP_GEN_CONST); // up and down, for end - only down
                 x += 2;
                 if (!b)
                 {
                     if (mainRooms.Count == x + towersNum)
                     {
-                        mainRooms[towersNum + x - 1].bossRoom = true;
-                        map[teleports[towersNum + x - 1].x, teleports[towersNum + x - 1].y].teleport = -1;
+                        y = towersNum + x - 1;
+                        room = mainRooms[y];
+                        room.bossRoom = true;
+                        map[room.pos.x, room.pos.y].structure = ALTAR_STRUCT;
+                        map[teleports[y].x, teleports[y].y].teleport = -1;
+                        map[teleports[y].x, teleports[y].y].tile = FLOOR_TILE;
                     }
                     else
                     {
@@ -203,7 +211,16 @@ public class GameMap
         {
             for (int i = 0; i < towersNum; i++) // ?? optimize ??
             {
-                teleportTo[i] = teleports[towersNum + (towerHeight == 1?i:(2 * i))];
+                if (i == playerTower) // ??
+                {
+                    map[teleports[i].x, teleports[i].y].teleport = -1;
+                    map[teleports[i].x, teleports[i].y].tile = FLOOR_TILE;
+                }
+                else
+                {
+                    teleportTo[i] = teleports[towersNum + (towerHeight == 1?i:(2 * i))];
+                    tToFloor[i] = new Vec2I(1, i);
+                }
             }
             for (int i = 0; i < towerHeight; i++)
             {
@@ -211,9 +228,11 @@ public class GameMap
                 {
                     x = (2 * i + 1) * towersNum;
                     teleportTo[x + 2 * j] = teleports[(i == 0)?j:((x - 2 * towersNum) + 2 * j + 1)];
+                    tToFloor[x + 2 * j] = new Vec2I(i, ((i == 0)?0:j));
                     if (i < towerHeight - 1)
                     {
                         teleportTo[x + 2 * j + 1] = teleports[x + 2 * (towersNum + j)];// + ((i == towerHeight - 2)?1:2) * j];
+                        tToFloor[x + 2 * j + 1] = new Vec2I(i + 2, j);
                     }
                 }
             }
@@ -350,7 +369,8 @@ public class GameMap
     }
 
     public void GenMap(Vec2I begin, Vec2I end, Vec2I minRDist, 
-    Vec2I maxRDist, Vec2I minRSize, Vec2I maxRSize, Vec2I mainR, int[] mROwners, int player = -1)
+    Vec2I maxRDist, Vec2I minRSize, Vec2I maxRSize, Vec2I mainR, 
+    int[] mROwners, int player, float wizardTGenConst, float campGenConst)
     {
         List<Vec2I> rList = new List<Vec2I>();
         List<int> rcx = new List<int>();
@@ -574,7 +594,7 @@ public class GameMap
                     cell.tile = TELEPORT_TILE;
                     for (int p = 0; p < D_NUM; p++)
                     {
-                        if (rand.NextDouble() < WIZARD_T_GEN_CONST)
+                        if (rand.NextDouble() < wizardTGenConst)
                         {
                             cell = map[rcx[i] + MAIN_R_T_GEN_DIST * D_WAYS[p].x, rcy[j] + MAIN_R_T_GEN_DIST * D_WAYS[p].y];
                             cell.ClearTower();
@@ -601,7 +621,7 @@ public class GameMap
                         new Vec2I(minRSize.x + rand.Next() % (maxRSize.x - minRSize.x), 
                         minRSize.y + rand.Next() % (maxRSize.y - minRSize.y)));
                         rPositions[i, j] = rooms[rooms.Count - 1];
-                        if (rand.NextDouble() < WIZARD_T_GEN_CONST)
+                        if (rand.NextDouble() < wizardTGenConst)
                         {
                             map[rcx[i], rcy[j]].ClearTower();
                             map[rcx[i], rcy[j]].structure = TOWER_STRUCT;
@@ -609,7 +629,7 @@ public class GameMap
                     }
                     else
                     {
-                        if (rand.NextDouble() < CAMP_GEN_CONST)
+                        if (rand.NextDouble() < campGenConst)
                         {
                             map[rcx[i], rcy[j]].structure  = CAMP_STRUCT;
                         }
