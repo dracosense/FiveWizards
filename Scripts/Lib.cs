@@ -89,7 +89,7 @@ public static class Lib
     public const float UNIT_RETURN_POINT_DIST = 1.0f;
     public const float UNIT_SCALE_CONST = 0.4f;
     public const float T_RAND_GEN_CONST = 0.9f;
-    public const float ROOM_GEN_CONST = 0.5f;
+    public const float ROOM_GEN_CONST = 0.6f;
     public const float CAMP_GEN_CONST = 0.25f;
     public const float BASIC_ARROW_DAMAGE = 0.6f;
     public const float SPELL_DAMAGE = 0.7f;
@@ -117,7 +117,7 @@ public static class Lib
     public const float R_PLAYER_HEALTH = 30.0f;
     public const float ENT_ADD_HEALTH = 3.0f;
     public const float BLUE_W_TOWER_SPEED = 8.0f;
-    public const float BLUE_W_TOWER_DAMAGE = 2.0f;
+    public const float BLUE_W_TOWER_DAMAGE = 4.0f;
     public const float WIZARD_T_GEN_CONST = 0.8f;
     public const float MAIN_FLOOR_W_T_GEN_CONST = 0.4f;
     public const float ENEMY_V_RANGE = 12.0f;
@@ -238,7 +238,7 @@ public static class Lib
     public static readonly Vec2I MAP_T_FLOOR_SIZE = new Vec2I(50, 50);
     public static readonly Vec2I CAMP_UNITS_NUM = new Vec2I(2, 4);
     public static readonly Vector3 SHOOT_BASE_TRANSLATION = new Vector3(0.0f, 0.25f * MAP_CELL_SIZE, 0.0f);
-    public static readonly Vector2 ROOM_MONSTERS_NUM = new Vector2(0.07f, 0.11f);
+    public static readonly Vector2 ROOM_MONSTERS_NUM = new Vector2(0.08f, 0.12f);
 
     public static readonly Vec2I[] D_WAYS = {new Vec2I(1, 0), new Vec2I(0, 1), new Vec2I(-1, 0), new Vec2I(0, -1)}; // directions ways
 

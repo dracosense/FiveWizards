@@ -187,7 +187,7 @@ public class GameMap
                 genPos.y = j * (towerSize.y + MAP_FLOOR_DIST);
                 b = (j * floorsNum.x + i < towersNum * (towerHeight - 1));
                 GenMap(genPos, genPos + towerSize, new Vec2I(11, 11), new Vec2I(15, 15), 
-                new Vec2I(2, 2), new Vec2I(5, 5), new Vec2I(towersNum + x, towersNum + x + 2), 
+                new Vec2I(3, 3), new Vec2I(5, 5), new Vec2I(towersNum + x, towersNum + x + 2), 
                 owners, -1, WIZARD_T_GEN_CONST, CAMP_GEN_CONST, true); // up and down, for end - only down
                 x += 2;
                 if (!b)
