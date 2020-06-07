@@ -16,7 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Roguelike3d"
-run/main_scene="res://Scenes/main.tscn"
+run/main_scene="res://Scenes/menu.tscn"
 boot_splash/image="res://boot_screen.png"
 config/icon="res://icon.png"
 
@@ -179,6 +179,8 @@ exit={
 quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
+quality/shadows/filter_mode=2
 environment/default_clear_color=Color( 0, 0, 0, 1 )
+quality/filters/msaa=4
 quality/depth/hdr=false
 environment/default_environment="res://default_env.tres"
