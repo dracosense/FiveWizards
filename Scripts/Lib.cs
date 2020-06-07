@@ -90,7 +90,7 @@ public static class Lib
     public const float UNIT_SCALE_CONST = 0.4f;
     public const float T_RAND_GEN_CONST = 0.9f;
     public const float ROOM_GEN_CONST = 0.6f;
-    public const float CAMP_GEN_CONST = 0.25f;
+    public const float CAMP_GEN_CONST = 0.4f;
     public const float BASIC_ARROW_DAMAGE = 0.6f;
     public const float SPELL_DAMAGE = 0.7f;
     public const float H_ARROW_DAMAGE = -0.7f;
@@ -119,7 +119,7 @@ public static class Lib
     public const float BLUE_W_TOWER_SPEED = 8.0f;
     public const float BLUE_W_TOWER_DAMAGE = 4.0f;
     public const float WIZARD_T_GEN_CONST = 0.8f;
-    public const float MAIN_FLOOR_W_T_GEN_CONST = 0.4f;
+    public const float MAIN_FLOOR_W_T_GEN_CONST = 0.5f;
     public const float ENEMY_V_RANGE = 12.0f;
     public const float UNIT_ARCH_DIST = 6.0f;
     public const float P_POSITIVE_BOOST_C = 0.05f;
@@ -138,6 +138,7 @@ public static class Lib
     public const float M_BOSS_SHIELD = 1.0f;
     public const float M_BOSS_MAX_HEALTH = 120.0f; 
     public const float PLAYER_RUN_SPEED_C = 1.6f;
+    public const float CHANGE_VOLUME_C = 5.0f;
     // effect constants
     public const float ATTACK_E_CONST = 0.6f;
     public const float SPEED_E_CONST = 0.4f;

@@ -11,6 +11,8 @@ public class Menu : Node
     protected Control losePanel;
     protected Control loadingPanel;
     protected Control background;
+    protected AudioStreamPlayer menuMusic;
+    protected AudioStreamPlayer gameMusic;
     protected Button difficultButton;
     protected Button mapSizeButton;
 
@@ -37,12 +39,16 @@ public class Menu : Node
         losePanel = (Control)GetNode("LosePanel");
         loadingPanel = (Control)GetNode("LoadingPanel");
         background = (Control)GetNode("Background");
+        menuMusic = (AudioStreamPlayer)GetNode("MenuMusic");
+        gameMusic = (AudioStreamPlayer)GetNode("GameMusic");
         difficultButton = (Button)GetNode("MainPanel/Difficult/Button");
         mapSizeButton = (Button)GetNode("MainPanel/MapSize/Button");
+        menuMusic.Play();
     }
 
     public override void _Process(float delta)
     {
+        float x = 0.0f;
         mainPanel.Visible = (root.menuPanel == M_MAIN_PANEL);
         winPanel.Visible = (root.menuPanel == M_WIN_PANEL);
         losePanel.Visible = (root.menuPanel == M_LOSE_PANEL);
@@ -52,7 +58,22 @@ public class Menu : Node
         mapSizeButton.Text = mapSizeName[root.GetMapSize()];
         if (root.menuPanel == M_LOADING_PANEL)
         {
+            menuMusic.Play();
+            menuMusic.StreamPaused = true;
+            gameMusic.Play();
             root.StartGame();
+        }
+        gameMusic.StreamPaused = !(menuMusic.StreamPaused = (root.menuPanel == M_GAME));
+        x = CHANGE_VOLUME_C * delta;
+        if (Input.IsActionPressed("increase_music_volume"))
+        {
+            menuMusic.VolumeDb += x;
+            gameMusic.VolumeDb += x;
+        }   
+        if (Input.IsActionPressed("decrease_music_volume"))
+        {
+            menuMusic.VolumeDb -= x;
+            gameMusic.VolumeDb -= x;
         }
     }
 

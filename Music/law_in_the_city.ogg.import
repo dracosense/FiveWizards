@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/law_in_the_city.ogg-350f97fb79fefb7503fbbb833642c151.oggstr"
+
+[deps]
+
+source_file="res://Music/law_in_the_city.ogg"
+dest_files=[ "res://.import/law_in_the_city.ogg-350f97fb79fefb7503fbbb833642c151.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

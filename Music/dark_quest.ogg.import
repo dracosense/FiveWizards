@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/dark_quest.ogg-b9acceddd1f103dc27356387b689ed75.oggstr"
+
+[deps]
+
+source_file="res://Music/dark_quest.ogg"
+dest_files=[ "res://.import/dark_quest.ogg-b9acceddd1f103dc27356387b689ed75.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -6,7 +6,7 @@ public class RedWTower : Area
 {
 
     protected Root root;
-    protected float createUTimeout = 12.0f;
+    protected float createUTimeout = 16.0f;
     protected float timeFromCreateUnit;
     protected int active;
 
