@@ -9,6 +9,7 @@ public class GUI : Control
     protected ProgressBar healthBar;
     protected ProgressBar magicEBar; 
     protected ProgressBar unitMagicEBar;
+    protected ProgressBar bossHealthBar;
     protected TextureProgress crystalsBar;
     protected TextureProgress clock;
     protected TextureRect orangeFog;
@@ -31,6 +32,7 @@ public class GUI : Control
         healthBar = (ProgressBar)GetNode("HealthBar");
         magicEBar = (ProgressBar)GetNode("MagicEBar");
         unitMagicEBar = (ProgressBar)GetNode("UnitMagicEBar");
+        bossHealthBar = (ProgressBar)GetNode("BossHealthBar");
         crystalsBar = (TextureProgress)GetNode("CrystalsBar");
         clock = (TextureProgress)GetNode("Clock");
         orangeFog = (TextureRect)GetNode("OrangeFog");
@@ -46,6 +48,7 @@ public class GUI : Control
 
     public override void _Process(float delta)
     {
+        Boss boss;
         Color c;
         string s;
         float x = 0.0f;
@@ -75,11 +78,22 @@ public class GUI : Control
             unitMagicEBar.Value = unitMagicEBar.MaxValue * (x / MAX_MAGIC_E);
         }
 
+        if (root.aBoss != null && root.aBoss.GetRef() != null)
+        {
+            bossHealthBar.Visible = true;
+            boss = root.aBoss.GetRef() as Boss;
+            bossHealthBar.Value = bossHealthBar.MaxValue * ((boss == null)?1.0f:(boss.GetHealth() / boss.GetMaxHealth()));
+        }
+        else
+        {
+            bossHealthBar.Visible = false;
+        }
+
         crystalsBar.Value = Mathf.RoundToInt((float)(crystalsBar.MaxValue * root.winCrystals) / (float)WIZARDS_NUM);
 
         clock.Value = clock.MaxValue * (root.clockP / CLOCK_PERIOD);
 
-        orangeFog.Visible = (root.clockSector == -1);
+        orangeFog.Visible = (root.clockSector == FOG_CLOCK_SECTOR);
 
         createUnitB.Visible = (root.playerWizard == SPIRIT_WIZARD || root.playerWizard == ELEMENTAL_WIZARD);
 

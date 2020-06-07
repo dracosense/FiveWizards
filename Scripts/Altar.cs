@@ -14,6 +14,7 @@ public class Altar : Area
     protected MeshInstance model;
     protected MeshInstance crystalObj;
     protected int active;
+    protected int lastWizard = -1;
 
     public void _on_body_entered(Spatial body)
     {
@@ -35,9 +36,13 @@ public class Altar : Area
 
     public override void _Process(float delta)
     {
-        model.MaterialOverride = crystalObj.MaterialOverride = wizardPMaterials[wizard];
+        if (lastWizard != wizard)
+        {
+            model.MaterialOverride = crystalObj.MaterialOverride = wizardPMaterials[wizard];
+            lastWizard = (int)wizard;
+        }
         crystalObj.Visible = crystal;
-        if (active > 0 && room != null && room.generated && Input.IsActionJustPressed("Action"))
+        if (active > 0 && room != null && room.generated && Input.IsActionJustPressed("action"))
         {
             if (crystal)
             {

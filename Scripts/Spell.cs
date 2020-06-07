@@ -36,7 +36,7 @@ public class Spell : Arrow
     {
         base._Ready();
         damage = SPELL_DAMAGE;
-        particles = (CPUParticles)GetNode("Particles");
+        particles = (CPUParticles)GetNodeOrNull("Particles");
     }
 
     public override void _PhysicsProcess(float delta)
@@ -44,7 +44,11 @@ public class Spell : Arrow
         base._PhysicsProcess(delta);
         if (active)
         {
-            particles.MaterialOverride = model.MaterialOverride = ((effect == -1)?null:eMaterials[effect]);
+            model.MaterialOverride = ((effect == -1)?null:eMaterials[effect]);
+            if (particles != null)
+            {
+                particles.MaterialOverride = model.MaterialOverride;
+            }
         }
     }
 

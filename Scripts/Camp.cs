@@ -11,7 +11,7 @@ public class Camp : Area
     {
         PackedScene ps;
         Unit obj;
-        uint x = wizardUnits[WAR_WIZARD, 0];
+        uint x = wizardUnits[WAR_WIZARD][0];
         QueueFree();
         if (CAMP_UNITS_NUM.x <= 0 || CAMP_UNITS_NUM.y - CAMP_UNITS_NUM.x <= 0)
         {
@@ -28,8 +28,7 @@ public class Camp : Area
             {
                 ps = enemyUnitPS;
             }
-            obj = root.CreateObj(ps, (2 * MAP_CELL_SIZE * (new Vector3((float)(root.rand.NextDouble() - 0.5f),
-            0.0f, (float)(root.rand.NextDouble() - 0.5f)))) + this.GlobalTransform.origin) as Unit;
+            obj = root.CreateObj(ps, 2 * GenRandMCellPos(root.rand) + this.GlobalTransform.origin) as Unit;
             if (obj == null)
             {
                 GD.Print("Create unit from camp error.");
@@ -38,11 +37,11 @@ public class Camp : Area
             }
             if (root.playerWizard == WAR_WIZARD)
             {
-                ((FriendUnit)obj).SetType(wizardUnits[WAR_WIZARD, 0], WAR_WIZARD);
+                ((FriendUnit)obj).SetType(wizardUnits[WAR_WIZARD][0], WAR_WIZARD);
             }
             else
             {
-                obj.SetType(wizardUnits[WAR_WIZARD, 0], WAR_WIZARD);
+                obj.SetType(wizardUnits[WAR_WIZARD][0], WAR_WIZARD);
             }
         }
     }

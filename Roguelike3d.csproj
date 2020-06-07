@@ -78,6 +78,7 @@
     <Compile Include="Scripts\Menu\MenuButton.cs" />
     <Compile Include="Scripts\Minimap.cs" />
     <Compile Include="Scripts\MinimapImage.cs" />
+    <Compile Include="Scripts\MonsterBoss.cs" />
     <Compile Include="Scripts\NecromancerArrow.cs" />
     <Compile Include="Scripts\Player.cs" />
     <Compile Include="Scripts\PlayerCamera.cs" />

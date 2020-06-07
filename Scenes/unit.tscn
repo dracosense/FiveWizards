@@ -1,4 +1,4 @@
-[gd_scene load_steps=77 format=2]
+[gd_scene load_steps=84 format=2]
 
 [ext_resource path="res://Scripts/Unit.cs" type="Script" id=1]
 [ext_resource path="res://Materials/main_m.tres" type="Material" id=2]
@@ -49,6 +49,12 @@
 [ext_resource path="res://Models/units/white/idle/0.obj" type="ArrayMesh" id=47]
 [ext_resource path="res://Models/units/white/idle/1.obj" type="ArrayMesh" id=48]
 [ext_resource path="res://Models/units/white/move/0.obj" type="ArrayMesh" id=49]
+[ext_resource path="res://Animations/wizard/wizard_idle.tres" type="Animation" id=50]
+[ext_resource path="res://Animations/wizard/wizard_move.tres" type="Animation" id=51]
+[ext_resource path="res://Models/units/red_boss/1.obj" type="ArrayMesh" id=52]
+[ext_resource path="res://Models/units/red_boss/0.obj" type="ArrayMesh" id=53]
+[ext_resource path="res://Models/units/red_boss/3.obj" type="ArrayMesh" id=54]
+[ext_resource path="res://Models/units/red_boss/2.obj" type="ArrayMesh" id=55]
 
 [sub_resource type="CubeMesh" id=1]
 material = ExtResource( 8 )
@@ -219,6 +225,22 @@ tracks/0/keys = {
 "values": [ ExtResource( 13 ), ExtResource( 10 ), ExtResource( 14 ), ExtResource( 12 ) ]
 }
 
+[sub_resource type="Animation" id=28]
+resource_name = "monster_boss_idle"
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 53 ), ExtResource( 52 ), ExtResource( 55 ), ExtResource( 54 ) ]
+}
+
 [sub_resource type="Animation" id=19]
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:mesh")
@@ -387,12 +409,15 @@ anims/gray_idle = SubResource( 15 )
 anims/gray_move = SubResource( 16 )
 anims/green_idle = SubResource( 17 )
 anims/green_move = SubResource( 18 )
+anims/monster_boss_idle = SubResource( 28 )
 anims/purpure_idle = SubResource( 19 )
 anims/purpure_move = SubResource( 20 )
 anims/red_idle = SubResource( 21 )
 anims/red_move = SubResource( 22 )
 anims/white_idle = SubResource( 23 )
 anims/white_move = SubResource( 24 )
+anims/wizard_idle = ExtResource( 50 )
+anims/wizard_move = ExtResource( 51 )
 
 [node name="Collider" type="CollisionShape" parent="."]
 transform = Transform( 1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 0, 0.9, 0 )

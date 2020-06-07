@@ -26,6 +26,7 @@ public class Root : Spatial
     public int friendUnitsMode;
     public int friendUnitsNum;
     public int clockSector;
+    public int menuPanel;
     public uint playerWizard;
     public uint winCrystals;
     public bool setFriendsTarget;
@@ -36,8 +37,11 @@ public class Root : Spatial
     // public Queue<Spell> spellQueue;
 
     private MeshInstance mCursor;
-    protected Spatial game;
-    protected GUI gui;
+    private Spatial game;
+    private MainMap mainMap;
+    private GUI gui;
+    private uint difficult = 1;
+    private uint mapSize = 1;
 
     public void AddToGame(Spatial a)
     {
@@ -116,16 +120,15 @@ public class Root : Spatial
         bool b = ((playerWizard == SPIRIT_WIZARD) && (magicE >= SPIRIT_MAGIC_E));
         if (Input.IsActionJustPressed("create_unit") && (a || b))
         {
-            FriendUnit unit = CreateObj(friendUnitPS, playerPos + MAP_CELL_SIZE *
-             (new Vector3((float)(rand.NextDouble() - 0.5f), 0.0f, (float)(rand.NextDouble() - 0.5f)))) as FriendUnit;
+            FriendUnit unit = CreateObj(friendUnitPS, playerPos + GenRandMCellPos(rand)) as FriendUnit;
             if (a)
             {
-                unit.SetType(wizardUnits[ELEMENTAL_WIZARD, 0], ELEMENTAL_WIZARD);
+                unit.SetType(wizardUnits[ELEMENTAL_WIZARD][0], ELEMENTAL_WIZARD);
                 magicE -= ELEMENTAL_MAGIC_E;
             }
             else
             {
-                unit.SetType(wizardUnits[SPIRIT_WIZARD, 0], SPIRIT_WIZARD);
+                unit.SetType(wizardUnits[SPIRIT_WIZARD][0], SPIRIT_WIZARD);
                 magicE -= SPIRIT_MAGIC_E;
             }
         }
@@ -142,14 +145,28 @@ public class Root : Spatial
 
     public void WinGame()
     {
-        GD.Print("You win!");
-        GetTree().Quit();
+        menuPanel = M_WIN_PANEL; 
+        EndGame();
+        //GD.Print("You win!");
+        //GetTree().Quit();
+    }
+
+    public void LoseGame()
+    {
+        menuPanel = M_LOSE_PANEL;
+        EndGame();
+    }
+
+    public void AddARoomMonster(Unit monster)
+    {
+        mainMap.AddARoomMonster(monster);
     }
 
     public void MoveClockP(float delta)
     {
         int x = 0;
         float y = 0.0f;
+        float z = 0.0f;
         clockP += delta * CLOCK_P_SPEED;
         x = (int)(clockP / CLOCK_PERIOD);
         for (int i = 0; i < x; i++)
@@ -165,7 +182,11 @@ public class Root : Spatial
             {
                 y += CLOCK_PERIOD;
             }
-            wizardClockConst[i] = Mathf.Max(Mathf.Min(y, wizardClockPos[i] - clockP + CLOCK_PERIOD) - C_SECTOR_SIZE, 0.0f);
+            else
+            {
+                z += CLOCK_PERIOD;
+            }
+            wizardClockConst[i] = Mathf.Max(Mathf.Min(y, CLOCK_PERIOD - y) - C_SECTOR_SIZE, 0.0f);
             if (CLOCK_PERIOD > 2.0f * C_SECTOR_SIZE)
             {
                 wizardClockConst[i] /= (CLOCK_PERIOD / 2.0f - C_SECTOR_SIZE);
@@ -174,17 +195,67 @@ public class Root : Spatial
         }
     }
 
-    public override void _Ready()
+    public void NextDifficult()
     {
-        // Spell s;
-        //FriendUnit friend = null;
-        wizardClockConst = new float[WIZARDS_NUM];
-        pBoosts = new float[PLAYER_BOOST_NUM];
+        difficult++;
+        difficult %= DIFFICULTS_NUM;
+    }
+
+    public void NextMapSize()
+    {
+        mapSize++;
+        mapSize %= MAP_SIZES_NUM;
+    }
+
+    public uint GetDifficult()
+    {
+        return difficult;
+    }
+
+    public uint GetMapSize()
+    {
+        return mapSize;
+    }
+
+    public void EndGame()
+    {
+        Node node = GetNodeOrNull("/root/Game");
+        if (node != null)
+        {
+            node.Free();
+        }
+        if (menuPanel == M_GAME)
+        {
+            menuPanel = M_MAIN_PANEL;
+        }
+        /*node = GetNodeOrNull("/root/Menu");
+        if (node != null)
+        {
+            return;
+        }
+        GetTree().Root.AddChild(menuPS.Instance());*/
+    }
+
+    public void StartGame()
+    {
+        FriendUnit friend;
+        /*Node node = GetNodeOrNull("/root/Menu");
+        if (node != null)
+        {
+            node.Free();
+        }*/
+        Node node = GetNodeOrNull("/root/Game");
+        if (node != null)
+        {
+            node.Free();
+        }
+        GetTree().Root.AddChild(mainPS.Instance());
+        menuPanel = M_GAME;
         mCursor = (MeshInstance)GetNode("/root/Game/MCursor");
         game = (Spatial)GetNode("/root/Game/");
         gui = (GUI)GetNode("/root/Game/GUILayer/GUI");
+        mainMap = (MainMap)GetNode("/root/Game/MainMap");
         player = (Player)GetNode("/root/Game/Player");
-        time = 0;
         guiInput = 0;
         friendUnitsMode = FOLLOW_PLAYER_M;
         playerInBattle = false;
@@ -197,6 +268,15 @@ public class Root : Spatial
         clockP = 0.0f;
         clockSector = clockSectors[0];
         pFloor = new Vec2I(0, 0);
+        mainMap.InitMap();
+        for (int i = 0; i < BASE_FRIENDS_NUM; i++)
+        {
+            friend = CreateObj(friendUnitPS, playerPos + GenRandMCellPos(rand)) as FriendUnit;
+            if (friend != null)
+            {
+                friend.SetType(wizardUnits[playerWizard][0], (int)playerWizard);
+            }
+        }
         for (int i = 0; i < WIZARDS_NUM; i++)
         {
             wizardClockConst[i] = 1.0f;
@@ -205,73 +285,73 @@ public class Root : Spatial
         {
             pBoosts[i] = 1.0f;
         }
-        /*for (int i = 0; i < BASE_FRIENDS_NUM; i++)
-        {
-            friend = CreateObj() as FriendUnit;
-            if (friend != null)
-            {
-                friend.SetType(); // ?? player wizard ?? // set out of game
-            }
-        }*/
-        /*spellQueue = new Queue<Spell>();
-        try
-        {
-            for (int i = 0; i < MAX_SPELL_NUM; i++)
-            {
-                s = (Spell)CreateObj(spellPS, INF * (new Vector3(1.0f, 1.0f, 1.0f)));
-                s.active = false;
-                spellQueue.Enqueue(s);
-            }
-        }
-        catch
-        {
-            spellQueue.Clear();
-            GD.Print("Create spells error.");
-        }*/
+    }
+
+    public override void _Ready()
+    {
+        wizardClockConst = new float[WIZARDS_NUM];
+        pBoosts = new float[PLAYER_BOOST_NUM];
+        time = 0;
+        menuPanel = M_MAIN_PANEL;   
     }
 
     public override void _PhysicsProcess(float delta)
     {
         time = ((float)OS.GetTicksMsec()) / 1000.0f;
-        mCursor.Translation = mousePos;
-    }
-
-    public override void _Process(float delta)
-    {
-        MoveClockP(delta);
-        CreatePUnit();
-        RegeneratePlayer();
-        if (winCrystals >= WIZARDS_NUM)
-        {
-            WinGame();
-        }
         if (Input.IsActionJustPressed("exit"))
         {
-            GetTree().Quit();
-        }
-        if (Input.IsActionJustPressed("follow_cursor"))
-        {
-            followCursor = !followCursor;
-            if (!followCursor)
+            switch (menuPanel)
             {
-                Input.ActionRelease("game_up");
+                case M_GAME:
+                    EndGame();
+                    break;
+                case M_MAIN_PANEL:
+                    GetTree().Quit();
+                    break;
+                case M_WIN_PANEL:
+                    menuPanel = M_MAIN_PANEL;
+                    break;
+                case M_LOSE_PANEL:
+                    menuPanel = M_MAIN_PANEL;
+                    break;
+                default:
+                    break;
             }
         }
-        if (followCursor)
+        if (menuPanel == M_GAME)
         {
-            Input.ActionPress("game_up");
-        }
-        if (Input.IsActionJustPressed("friends_follow_p_mode"))
-        {
-            friendUnitsMode = FOLLOW_PLAYER_M;
-        }
-        if (Input.IsActionJustPressed("friends_defend_point_mode"))
-        {
-            setFriendsTarget = true;
-        }
-        if (Input.IsActionJustPressed("friends_attack_mode"))
-        {
-            friendUnitsMode = ATTACK_M;
+            MoveClockP(delta);
+            CreatePUnit();
+            RegeneratePlayer();
+            mCursor.Translation = mousePos;
+            if (winCrystals >= WIZARDS_NUM)
+            {
+                WinGame();
+            }
+            if (Input.IsActionJustPressed("follow_cursor"))
+            {
+                followCursor = !followCursor;
+                if (!followCursor)
+                {
+                    Input.ActionRelease("game_up");
+                }
+            }
+            if (followCursor)
+            {
+                Input.ActionPress("game_up");
+            }
+            if (Input.IsActionJustPressed("friends_follow_p_mode"))
+            {
+                friendUnitsMode = FOLLOW_PLAYER_M;
+            }
+            if (Input.IsActionJustPressed("friends_defend_point_mode"))
+            {
+                setFriendsTarget = true;
+            }
+            if (Input.IsActionJustPressed("friends_attack_mode"))
+            {
+                friendUnitsMode = ATTACK_M;
+            }
         }
     }
 

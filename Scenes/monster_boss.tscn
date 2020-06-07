@@ -1,0 +1,346 @@
+[gd_scene load_steps=72 format=2]
+
+[ext_resource path="res://Scenes/boss.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Models/units/red_boss/2.obj" type="ArrayMesh" id=2]
+[ext_resource path="res://Models/units/red_boss/3.obj" type="ArrayMesh" id=3]
+[ext_resource path="res://Models/units/red_boss/1.obj" type="ArrayMesh" id=4]
+[ext_resource path="res://Models/units/red_boss/0.obj" type="ArrayMesh" id=5]
+[ext_resource path="res://Scripts/MonsterBoss.cs" type="Script" id=6]
+[ext_resource path="res://Models/units/gray/move/2.obj" type="ArrayMesh" id=7]
+[ext_resource path="res://Models/units/gray/move/3.obj" type="ArrayMesh" id=8]
+[ext_resource path="res://Models/units/gray/move/0.obj" type="ArrayMesh" id=9]
+[ext_resource path="res://Models/units/gray/move/1.obj" type="ArrayMesh" id=10]
+[ext_resource path="res://Models/units/gray/idle/1.obj" type="ArrayMesh" id=11]
+[ext_resource path="res://Models/units/gray/idle/0.obj" type="ArrayMesh" id=12]
+[ext_resource path="res://Models/units/green/idle/1.obj" type="ArrayMesh" id=13]
+[ext_resource path="res://Models/units/green/move/1.obj" type="ArrayMesh" id=14]
+[ext_resource path="res://Models/units/green/move/3.obj" type="ArrayMesh" id=15]
+[ext_resource path="res://Models/units/green/move/0.obj" type="ArrayMesh" id=16]
+[ext_resource path="res://Models/units/green/move/2.obj" type="ArrayMesh" id=17]
+[ext_resource path="res://Models/units/green/idle/0.obj" type="ArrayMesh" id=18]
+[ext_resource path="res://Models/units/blue/idle/0.obj" type="ArrayMesh" id=19]
+[ext_resource path="res://Models/units/blue/idle/1.obj" type="ArrayMesh" id=20]
+[ext_resource path="res://Models/units/blue/move/0.obj" type="ArrayMesh" id=21]
+[ext_resource path="res://Models/units/blue/move/4.obj" type="ArrayMesh" id=22]
+[ext_resource path="res://Models/units/blue/move/2.obj" type="ArrayMesh" id=23]
+[ext_resource path="res://Models/units/blue/move/3.obj" type="ArrayMesh" id=24]
+[ext_resource path="res://Models/units/blue/move/1.obj" type="ArrayMesh" id=25]
+[ext_resource path="res://Models/units/purpure/idle/0.obj" type="ArrayMesh" id=26]
+[ext_resource path="res://Models/units/purpure/idle/1.obj" type="ArrayMesh" id=27]
+[ext_resource path="res://Models/units/purpure/move/2.obj" type="ArrayMesh" id=28]
+[ext_resource path="res://Models/units/purpure/move/1.obj" type="ArrayMesh" id=29]
+[ext_resource path="res://Models/units/purpure/move/3.obj" type="ArrayMesh" id=30]
+[ext_resource path="res://Models/units/purpure/move/0.obj" type="ArrayMesh" id=31]
+[ext_resource path="res://Models/units/red/move/2.obj" type="ArrayMesh" id=32]
+[ext_resource path="res://Models/units/red/move/0.obj" type="ArrayMesh" id=33]
+[ext_resource path="res://Models/units/red/move/1.obj" type="ArrayMesh" id=34]
+[ext_resource path="res://Models/units/red/move/3.obj" type="ArrayMesh" id=35]
+[ext_resource path="res://Models/units/red/idle/1.obj" type="ArrayMesh" id=36]
+[ext_resource path="res://Models/units/red/idle/0.obj" type="ArrayMesh" id=37]
+[ext_resource path="res://Models/units/gray2/idle/1.obj" type="ArrayMesh" id=38]
+[ext_resource path="res://Models/units/gray2/idle/0.obj" type="ArrayMesh" id=39]
+[ext_resource path="res://Models/units/gray2/move/0.obj" type="ArrayMesh" id=40]
+[ext_resource path="res://Models/units/gray2/move/2.obj" type="ArrayMesh" id=41]
+[ext_resource path="res://Models/units/gray2/move/3.obj" type="ArrayMesh" id=42]
+[ext_resource path="res://Models/units/gray2/move/1.obj" type="ArrayMesh" id=43]
+[ext_resource path="res://Models/units/gray3/move/0.obj" type="ArrayMesh" id=44]
+[ext_resource path="res://Models/units/gray3/move/1.obj" type="ArrayMesh" id=45]
+[ext_resource path="res://Models/units/gray3/move/3.obj" type="ArrayMesh" id=46]
+[ext_resource path="res://Models/units/gray3/move/2.obj" type="ArrayMesh" id=47]
+[ext_resource path="res://Models/units/gray3/idle/0.obj" type="ArrayMesh" id=48]
+[ext_resource path="res://Models/units/gray3/idle/1.obj" type="ArrayMesh" id=49]
+[ext_resource path="res://Models/units/white/idle/0.obj" type="ArrayMesh" id=50]
+[ext_resource path="res://Models/units/white/idle/1.obj" type="ArrayMesh" id=51]
+[ext_resource path="res://Models/units/white/move/0.obj" type="ArrayMesh" id=52]
+[ext_resource path="res://Materials/main_m.tres" type="Material" id=53]
+
+[sub_resource type="Animation" id=9]
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 19 ), ExtResource( 20 ) ]
+}
+
+[sub_resource type="Animation" id=10]
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 21 ), ExtResource( 25 ), ExtResource( 23 ), ExtResource( 24 ), ExtResource( 22 ) ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "boss_idle"
+step = 0.25
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 0.5, 0.75 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 5 ), ExtResource( 4 ), ExtResource( 2 ), ExtResource( 3 ) ]
+}
+
+[sub_resource type="Animation" id=11]
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 39 ), ExtResource( 38 ) ]
+}
+
+[sub_resource type="Animation" id=12]
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 40 ), ExtResource( 43 ), ExtResource( 41 ), ExtResource( 42 ) ]
+}
+
+[sub_resource type="Animation" id=13]
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 48 ), ExtResource( 49 ) ]
+}
+
+[sub_resource type="Animation" id=14]
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 44 ), ExtResource( 45 ), ExtResource( 47 ), ExtResource( 46 ) ]
+}
+
+[sub_resource type="Animation" id=15]
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 12 ), ExtResource( 11 ) ]
+}
+
+[sub_resource type="Animation" id=16]
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 9 ), ExtResource( 10 ), ExtResource( 7 ), ExtResource( 8 ) ]
+}
+
+[sub_resource type="Animation" id=17]
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 18 ), ExtResource( 13 ) ]
+}
+
+[sub_resource type="Animation" id=18]
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 16 ), ExtResource( 14 ), ExtResource( 17 ), ExtResource( 15 ) ]
+}
+
+[sub_resource type="Animation" id=19]
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 26 ), ExtResource( 27 ) ]
+}
+
+[sub_resource type="Animation" id=20]
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 31 ), ExtResource( 29 ), ExtResource( 28 ), ExtResource( 30 ) ]
+}
+
+[sub_resource type="Animation" id=21]
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 37 ), ExtResource( 36 ) ]
+}
+
+[sub_resource type="Animation" id=22]
+length = 0.4
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 33 ), ExtResource( 34 ), ExtResource( 32 ), ExtResource( 35 ) ]
+}
+
+[sub_resource type="Animation" id=23]
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ ExtResource( 50 ), ExtResource( 51 ) ]
+}
+
+[sub_resource type="Animation" id=24]
+length = 0.8
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:mesh")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ ExtResource( 52 ) ]
+}
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 2.75, 1.6, 2.625 )
+
+[node name="MonsterBoss" instance=ExtResource( 1 )]
+collision_layer = 4
+script = ExtResource( 6 )
+
+[node name="Model" parent="." index="0"]
+transform = Transform( 1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, 0, 0, 0 )
+material_override = ExtResource( 53 )
+mesh = ExtResource( 5 )
+material/0 = null
+
+[node name="Indicators" parent="." index="1"]
+transform = Transform( 6, 0, 0, 0, 6, 0, 0, 0, 6, -1.75, 0, 0 )
+
+[node name="APlayer" parent="." index="2"]
+root_node = NodePath("../Model")
+anims/blue_idle = SubResource( 9 )
+anims/blue_move = SubResource( 10 )
+anims/boss_idle = SubResource( 1 )
+anims/gray2_idle = SubResource( 11 )
+anims/gray2_move = SubResource( 12 )
+anims/gray3_idle = SubResource( 13 )
+anims/gray3_move = SubResource( 14 )
+anims/gray_idle = SubResource( 15 )
+anims/gray_move = SubResource( 16 )
+anims/green_idle = SubResource( 17 )
+anims/green_move = SubResource( 18 )
+anims/purpure_idle = SubResource( 19 )
+anims/purpure_move = SubResource( 20 )
+anims/red_idle = SubResource( 21 )
+anims/red_move = SubResource( 22 )
+anims/white_idle = SubResource( 23 )
+anims/white_move = SubResource( 24 )
+
+[node name="Collider" parent="." index="3"]
+transform = Transform( 1.8, 0, 0, 0, 1.8, 0, 0, 0, 1.8, -0.25, 2.9, 0.075 )
+shape = SubResource( 2 )
+
+[node name="ArchPos" parent="." index="4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 1, 0.75 )

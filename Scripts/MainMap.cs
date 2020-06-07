@@ -72,6 +72,14 @@ public class MainMap : GridMap
         return map.rooms[room].owner;
     }
 
+    public void AddARoomMonster(Unit monster)
+    {
+        if (root.playerInBattle)
+        {
+            aRoomMonsters.Add(WeakRef(monster));
+        }
+    }
+
     public void GenMonsters(PackedScene ps, int r, int num, uint type, int wizard)
     {
         Room room = map.rooms[r];
@@ -213,21 +221,21 @@ public class MainMap : GridMap
         root.playerInBattle = false;
         if (room >= 0)
         {
-            map.rooms[aRoom].generated = true;
+            map.rooms[room].generated = true;
             root.AddPBoost(true);
-            /*if (map.rooms[aRoom].bossRoom && map.rooms[aRoom].owner != root.playerWizard)
+            /*if (room.bossRoom && room.owner != root.playerWizard)
             {
                 root.winCrystals++;
             }*/
         }
     }
 
-    public override void _Ready()
+    public void InitMap()
     {
-        root = (Root)GetNode("/root/root");
-        minimap = (Minimap)GetNode("/root/Game/Minimap/Map");
-        map = new GameMap(new Vec2I(MAIN_MAP_SIZE.x, MAIN_MAP_SIZE.y),
-         new Vec2I(MAP_T_FLOOR_SIZE.x, MAP_T_FLOOR_SIZE.y), WIZARDS_NUM, MAP_TOWER_FLOORS_NUM, 0);
+        map = new GameMap(new Vec2I((int)(mapSizeConst[root.GetDifficult()] * MAIN_MAP_SIZE.x), 
+        (int)(mapSizeConst[root.GetDifficult()] * MAIN_MAP_SIZE.y)),
+         new Vec2I(MAP_T_FLOOR_SIZE.x, MAP_T_FLOOR_SIZE.y), 
+         WIZARDS_NUM, mapSizeTowerFloorsNum[root.GetDifficult()], 0);
         if (map.mainRooms != null && map.mainRooms.Count > 1) // ?? portal in main room ??
         {
             root.SetPPos(MapToWorld(map.mainRooms[0].pos.x, 0, map.mainRooms[0].pos.y));
@@ -245,16 +253,23 @@ public class MainMap : GridMap
         {
             GD.Print("Start room error.");
         }
-        pMapPos = new Vec2I();
-        lastPMapPos = new Vec2I();
         aRoom = -1;
         lastARoom = -1;
         redrawMap = true;
+    }
+
+    public override void _Ready()
+    {
+        root = (Root)GetNode("/root/root");
+        minimap = (Minimap)GetNode("/root/Game/Minimap/Map");
         aRoomMonsters = new List<WeakRef>();
+        pMapPos = new Vec2I();
+        lastPMapPos = new Vec2I();
     }
 
     public override void _PhysicsProcess(float delta)
     {
+        Room room;
         MapCell c;
         Vec2I v = new Vec2I();
         int x = 0;
@@ -326,7 +341,8 @@ public class MainMap : GridMap
                 }
                 if (aRoom != -1 && !map.rooms[aRoom].generated)
                 {
-                    if (map.rooms[aRoom].owner == root.playerWizard || map.rooms[aRoom].owner < 0)
+                    room = map.rooms[aRoom];
+                    if (room.owner == root.playerWizard || room.owner < 0)
                     {
                         SetRoomGenerated(aRoom);
                         // ?? redraw map ?? 
@@ -334,19 +350,19 @@ public class MainMap : GridMap
                     else
                     {
                         map.SetREntrances(aRoom, BLOCK_TILE);
-                        x = (int)(wizardGenEConst[map.rooms[aRoom].owner] * (root.rand.Next()  % (ROOM_MONSTERS_NUM.y - ROOM_MONSTERS_NUM.x) + ROOM_MONSTERS_NUM.x)); 
-                        GenMonsters(enemyUnitPS, aRoom, x, wizardUnits[map.rooms[aRoom].owner, 0], map.rooms[aRoom].owner);
-                        if (map.rooms[aRoom].bossRoom)
+                        x = RoomGenMonstersNum((room.sizeDL.x + room.sizeUR.x) * (room.sizeDL.y + room.sizeUR.y), (uint)room.owner, root.GetDifficult(), root.rand); 
+                        GenMonsters(enemyUnitPS, aRoom, x, wizardUnits[room.owner][0], room.owner);
+                        if (room.bossRoom)
                         {
-                            GenMonsters(bossPS, aRoom, 1, 0, map.rooms[aRoom].owner);
-                            if (aRoomMonsters.Count == x + 1)
+                            GenMonsters(((room.owner == MONSTER_WIZARD)?mBossPS:bossPS), aRoom, 1, 0, room.owner);
+                            /*if (aRoomMonsters.Count == x + 1)
                             {
                                 root.aBoss = WeakRef(aRoomMonsters[aRoomMonsters.Count - 1]);
                             }
                             else
                             {
                                 GD.Print("Room monsters gen error.");
-                            }
+                            }*/
                         }
                         redrawMap = true;
                         root.playerInBattle = true;
