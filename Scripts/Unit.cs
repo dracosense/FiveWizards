@@ -19,6 +19,7 @@ public class Unit : KinematicBody
     protected Area vRange;
     protected Area aRange;
     protected Root root;
+    protected PackedScene weaponPS = null;
     protected Vector3 spawnPos;
     protected float health;
     protected float maxHealth = 4.0f;
@@ -28,13 +29,18 @@ public class Unit : KinematicBody
     protected float attackTimeout = 1.6f;
     protected float timeFromDamage;
     protected float damagedTimeout = 0.1f;
+    protected float attackDist = UNIT_ATTACK_DIST;
+    protected float archDist = UNIT_ARCH_DIST;
     protected int type = -1;
     protected int wizard = -1;
     protected int  lastDFromW = -1; 
+    protected int arrowWizard = -1;
+    protected int arrowEffect = -1;
     protected bool damaged;
     protected bool randScaled = true;
     protected bool randRotated = true;
     protected bool attackUnitsInRange;
+    protected bool orangeFogChangeM = true;
 
     public float GetHealth()
     {
@@ -60,14 +66,19 @@ public class Unit : KinematicBody
         body.SetCollisionMaskBit(MAP_M_BIT, true);
     }
 
-    public bool TryArch(Vector3 pos)
+    public bool IsArcher()
+    {
+        return  (weaponPS != null && archPos != null);
+    }
+
+    public bool TryArch(Vector3 pos, bool checkTime = true)
     {
         Arrow a = null;
         Vector2 v = Vec3ToVec2(pos - this.GlobalTransform.origin);
-        if (timeFromAttack >= attackTimeout && type >= 0 && unitArrow[type] != null && archPos != null)
+        if ((checkTime?(timeFromAttack >= attackTimeout):true) && IsArcher())
         {
             this.Rotation = new Vector3(0.0f, GetRealAngle(v.Angle()), 0.0f);
-            a = root.CreateObj(unitArrow[type], archPos.GlobalTransform.origin) as Arrow;
+            a = root.CreateObj(weaponPS, archPos.GlobalTransform.origin) as Arrow;
             if (a  != null)
             {
                 SetWCMask(a);
@@ -75,6 +86,8 @@ public class Unit : KinematicBody
                 if (wizard >= 0)
                 {
                     a.damage *= root.wizardClockConst[wizard];
+                    a.wizard = arrowWizard;
+                    a.effect = arrowEffect;
                 }
                 timeFromAttack = 0.0f;
                 return true;
@@ -96,6 +109,7 @@ public class Unit : KinematicBody
         shield = unitShield[t];
         damage = unitDamage[t];
         wizard = _wizard;
+        weaponPS = unitArrow[type];
     }
 
     public virtual void Attack(Unit unit)
@@ -125,7 +139,7 @@ public class Unit : KinematicBody
         spawnPos = pos;
     }
 
-    public void MoveOn(Vector2 v)
+    public virtual void MoveOn(Vector2 v)
     {
         this.Rotation = new Vector3(0.0f, GetRealAngle(v.Angle()), 0.0f);
         MoveAndSlide(effects[SPEED_E].GetPower() * speed * ((new Vector3(v.x, 0.0f, v.y)).Normalized())); //
@@ -135,11 +149,11 @@ public class Unit : KinematicBody
     {
         PackedScene ps;
         Unit obj;
-        uint x = wizardUnits[NECROMANCER_WIZARD, 0];
+        uint x = wizardUnits[NECROMANCER_WIZARD][0];
         bool b = (lastDFromW == root.playerWizard);
         if (b)
         {
-            root.magicE = Mathf.Min(root.magicE + root.pBoosts[1] * UNIT_M_E_ADD, MAX_MAGIC_E); // add magic energy 
+            root.magicE = Mathf.Min(root.magicE + root.pBoosts[1] * ((type>= 0)?unitMEnergyAdd[type]:0.0f), MAX_MAGIC_E); // add magic energy 
         }
         if (lastDFromW == NECROMANCER_WIZARD && type != x && root.rand.NextDouble() < SKELETON_GEN_CONST)
         {
@@ -151,7 +165,7 @@ public class Unit : KinematicBody
             {
                 ps = enemyUnitPS;
             }
-            obj = root.CreateObj(ps, this.GlobalTransform.origin + MAP_CELL_SIZE * (new Vector3((float)(root.rand.NextDouble() - 0.5f), 0.0f, (float)(root.rand.NextDouble() - 0.5f)))) as Unit; // ?? change position ??
+            obj = root.CreateObj(ps, this.GlobalTransform.origin + GenRandMCellPos(root.rand)) as Unit; // ?? change position ??
             if (obj != null)
             {
                 if (b)
@@ -169,6 +183,20 @@ public class Unit : KinematicBody
             }
         }
         QueueFree();
+    }
+    public virtual void SetMaterial()
+    {
+        if (orangeFogChangeM)
+        {
+            model.MaterialOverride = ((root.clockSector == FOG_CLOCK_SECTOR) ? unitOrangeFogM : unitM);
+        }
+        else
+        {
+            if (damaged)
+            {
+                model.MaterialOverride = unitM;
+            }
+        }
     }
 
     public override void _Ready()
@@ -200,8 +228,8 @@ public class Unit : KinematicBody
         {
             this.Rotation = ((float)(2.0f * Mathf.Pi * root.rand.NextDouble())) * new Vector3(0.0f, 1.0f, 0.0f);
         }
-        timeFromAttack = 0;
-        timeFromDamage = 0;
+        timeFromAttack = attackTimeout;
+        timeFromDamage = damagedTimeout;
         health = maxHealth;
         damaged = false;
         attackUnitsInRange = true;
@@ -215,7 +243,6 @@ public class Unit : KinematicBody
         v = this.GlobalTransform.origin;
         v.y = 0.0f; 
         attackUnitsInRange = (root.clockSector != -1);
-        model.MaterialOverride = ((root.clockSector == -1)?unitOrangeFogM:unitM);
         this.GlobalTransform = new Transform(this.GlobalTransform.basis, v);
         for (int i = 0; i < effects.Length; i++)
         {
@@ -267,9 +294,9 @@ public class Unit : KinematicBody
         }
         // Vector3 v = this.GlobalTransform.origin;
         // this.GlobalTransform = new Transform(this.GlobalTransform.basis, new Vector3(v.x, 0.0f, v.z));
-        if (timeFromDamage > damagedTimeout && damaged)
+        if (timeFromDamage > damagedTimeout)
         {
-            model.MaterialOverride = unitM;
+            SetMaterial();
             damaged = false;
         }
         if (healthBar != null)

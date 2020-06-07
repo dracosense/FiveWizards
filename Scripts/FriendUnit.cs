@@ -34,7 +34,7 @@ public class FriendUnit : Unit
         base._Ready();
         root.friendUnitsNum++;
         this.Scale = 1.2f * (new Vector3(1.0f, 1.0f, 1.0f));
-        SetType(wizardUnits[root.playerWizard, 0], (int)root.playerWizard);
+        SetType(wizardUnits[root.playerWizard][0], (int)root.playerWizard);
         //this.GlobalTransform = new Transform(this.GlobalTransform.basis, Vector3.Inf);
     }
 
@@ -42,11 +42,13 @@ public class FriendUnit : Unit
     {
         Vector2 v;
         EnemyUnit e = null;
+        float x = 0.0f;
         if (type >= 0)
         {
             damage = root.pBoosts[4] * unitDamage[type];
-            shield = root.pBoosts[5] * unitShield[type];
+            shield = root.pBoosts[5] * unitShield[type]; 
         }
+        speed = (root.playerInBattle?1.0f:PLAYER_RUN_SPEED_C) * FRIEND_SPEED;
         //
         if (effects[HEALTH_E].sTime + EFFECT_TIME < root.time && !root.playerInBattle && root.playerAtHome) // ??
         {
@@ -54,7 +56,7 @@ public class FriendUnit : Unit
             effects[HEALTH_E].param = FRIEND_HEALTH_E;
         }
         //
-        if (type == wizardUnits[SPIRIT_WIZARD, 0] && root.friendUnitsNum > BASE_FRIENDS_NUM) // spirit
+        if (type == wizardUnits[SPIRIT_WIZARD][0] && root.friendUnitsNum > BASE_FRIENDS_NUM) // spirit
         {
             root.magicE = Mathf.Max(root.magicE - SPIRIT_TIME_COST * delta, 0.0f);
             if (Input.IsActionJustPressed("destroy_units") || root.magicE <= 0.0f)
@@ -85,23 +87,37 @@ public class FriendUnit : Unit
             default:
                 break;
         }
-        if (e != null)
-        {
-            if ((e.GlobalTransform.origin - this.GlobalTransform.origin).Length() < UNIT_TARGET_DIST ||
-             !TryArch(e.GlobalTransform.origin +SHOOT_BASE_TRANSLATION))
-            {
-                targetPos = e.GlobalTransform.origin;
-            }
-        }
-        if (root.clockSector == -1) // orange fog
+        if (root.clockSector == FOG_CLOCK_SECTOR) // orange fog
         {
             targetPos = root.playerPos;
         }
-        v = Vec3ToVec2(targetPos - this.GlobalTransform.origin);
-        if (root.clockSector == -1 && timeFromAttack >= attackTimeout && v.Length() < ENEMY_ATTACK_PLAYER_DIST)
+        else
         {
-            Attack(root.player);
-            timeFromAttack = 0.0f;
+            if (e != null)
+            {
+                x = (e.GlobalTransform.origin - this.GlobalTransform.origin).Length();
+                if (x < UNIT_TARGET_DIST || x > archDist || !IsArcher())
+                {
+                    targetPos = e.GlobalTransform.origin;
+                }
+                else
+                {
+                    TryArch(e.GlobalTransform.origin + SHOOT_BASE_TRANSLATION);
+                }
+            }
+        }
+        v = Vec3ToVec2(targetPos - this.GlobalTransform.origin);
+        if (root.clockSector == FOG_CLOCK_SECTOR)
+        {
+            if (timeFromAttack >= attackTimeout && v.Length() < attackDist)
+            {
+                Attack(root.player);
+                timeFromAttack = 0.0f;
+            }
+            /*if (v.Length() < archDist) // ?? arch to player ?? (change arrow paramss)
+            {
+                TryArch(targetPos + SHOOT_BASE_TRANSLATION);
+            }*/
         }
         if (v.Length() < UNIT_TARGET_DIST)
         {
@@ -109,9 +125,9 @@ public class FriendUnit : Unit
         }
         else
         {
-            if (root.friendUnitsMode == FOLLOW_PLAYER_M && v.Length() >= FRIEND_UNIT_TELEPORT_DIST) // || aRoom != unit room
+            if ((root.friendUnitsMode == FOLLOW_PLAYER_M || root.clockSector == FOG_CLOCK_SECTOR) && v.Length() >= FRIEND_UNIT_TELEPORT_DIST) // || aRoom != unit room
             {
-                genPos = 2.0f * FRIEND_UNIT_MAX_GEN_DIST * (new Vector3((float)(root.rand.NextDouble() - 0.5f), 0.0f, (float)(root.rand.NextDouble() - 0.5f)));
+                genPos = 2.0f * FRIEND_UNIT_MAX_GEN_DIST * GenRandMCellPos(root.rand) / MAP_CELL_SIZE;
                 this.GlobalTransform = new Transform(this.GlobalTransform.basis, root.playerPos + genPos);
             }
             MoveOn(v);

@@ -27,11 +27,10 @@ public class GreenWTower : WTower
         {
             v = D_WAYS[root.rand.Next() % D_NUM];
             Unit unit = root.CreateObj(enemyUnitPS, this.GlobalTransform.origin + 
-            MAP_CELL_SIZE * (new Vector3(v.x, 0.0f, v.y) + 
-            new Vector3((float)(root.rand.NextDouble() - 0.5f), 0.0f, (float)(root.rand.NextDouble() - 0.5f)))) as Unit;
+            MAP_CELL_SIZE * new Vector3(v.x, 0.0f, v.y) + GenRandMCellPos(root.rand)) as Unit;
             if (unit != null)
             {
-                unit.SetType(wizardUnits[NATURE_WIZARD, 0], NATURE_WIZARD);
+                unit.SetType(wizardUnits[NATURE_WIZARD][0], NATURE_WIZARD);
                 quardian = WeakRef(unit);
                 timeFromGenUnit = 0.0f;
             }

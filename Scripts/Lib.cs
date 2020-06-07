@@ -89,18 +89,18 @@ public static class Lib
     public const float UNIT_RETURN_POINT_DIST = 1.0f;
     public const float UNIT_SCALE_CONST = 0.4f;
     public const float T_RAND_GEN_CONST = 0.9f;
-    public const float ROOM_GEN_CONST = 0.6f;
+    public const float ROOM_GEN_CONST = 0.5f;
     public const float CAMP_GEN_CONST = 0.25f;
     public const float BASIC_ARROW_DAMAGE = 0.6f;
     public const float SPELL_DAMAGE = 0.7f;
-    public const float H_ARROW_DAMAGE = -0.8f;
-    public const float NECROMANCER_ARROW_DAMAGE = 0.8f;
+    public const float H_ARROW_DAMAGE = -0.7f;
+    public const float NECROMANCER_ARROW_DAMAGE = 1.2f;
     public const float ELEMENTAL_ARROW_DAMAGE = 0.6f;
     public const float SPIRIT_ARROW_DAMAGE = 0.5f;
     public const float UNIT_TARGET_DIST = 1.2f;
     public const float FRIEND_UNIT_TELEPORT_DIST = 12.0f;
     public const float FRIEND_UNIT_MAX_GEN_DIST = 2.0f;
-    public const float ENEMY_ATTACK_PLAYER_DIST = 1.6f;
+    public const float UNIT_ATTACK_DIST = 1.6f; // not for attack area
     public const float EFFECT_TIME = 6.0f;
     public const float MAIN_P_LIGHT_BASE_R = 10.0f;
     public const float FRIEND_HEALTH_E = -2.0f;
@@ -109,19 +109,19 @@ public static class Lib
     public const float FRIEND_SPEED = 7.0f;
     public const float MAP_CELL_SIZE = 4.0f;
     public const float MAX_MAGIC_E = 10.0f;
-    public const float UNIT_M_E_ADD = 1.0f;
     public const float SKELETON_GEN_CONST = 0.8f;
     public const float SPIRIT_TIME_COST = 0.01f;
-    public const float ELEMENTAL_MAGIC_E = 3.0f; // magic energy to gen elemental (blue)
-    public const float SPIRIT_MAGIC_E = 0.8f;
+    public const float ELEMENTAL_MAGIC_E = 2.5f; // magic energy to gen elemental (blue)
+    public const float SPIRIT_MAGIC_E = 1.0f;
     public const float R_PLAYER_M_E = 5.0f; // regenerate player magic energy
     public const float R_PLAYER_HEALTH = 30.0f;
-    public const float ENT_ADD_HEALTH = 4.0f;
+    public const float ENT_ADD_HEALTH = 3.0f;
     public const float BLUE_W_TOWER_SPEED = 8.0f;
     public const float BLUE_W_TOWER_DAMAGE = 2.0f;
     public const float WIZARD_T_GEN_CONST = 0.8f;
+    public const float MAIN_FLOOR_W_T_GEN_CONST = 0.4f;
     public const float ENEMY_V_RANGE = 12.0f;
-    public const float ENEMY_ARCH_DIST = 6.0f;
+    public const float UNIT_ARCH_DIST = 6.0f;
     public const float P_POSITIVE_BOOST_C = 0.05f;
     public const float P_NEGATIVE_BOOST_C = -0.1f;
     public const float CLOCK_PERIOD  = 360.0f;
@@ -131,6 +131,13 @@ public static class Lib
     public const float PLAYER_MAX_HEALTH = 30.0f;
     public const float PLAYER_SHIELD = 0.2f;
     public const float PLAYER_SPEED = 8.0f;
+    public const float BOSS_SPEED = 4.0f;
+    public const float BOSS_SHIELD = 0.5f;
+    public const float BOSS_MAX_HEALTH = 30.0f;
+    public const float BOSS_ARCH_DIST = 12.0f;
+    public const float M_BOSS_SHIELD = 1.0f;
+    public const float M_BOSS_MAX_HEALTH = 120.0f; 
+    public const float PLAYER_RUN_SPEED_C = 1.6f;
     // effect constants
     public const float ATTACK_E_CONST = 0.6f;
     public const float SPEED_E_CONST = 0.4f;
@@ -148,14 +155,14 @@ public static class Lib
     public const int TOWER_TYPES_NUM = 2; // 
     public const int EFFECTS_NUM  = 6; // 0 - monster, 1-5 - wizards
     public const int WIZARDS_NUM = 6;
-    public const int MAP_TOWER_FLOORS_NUM = 2;
+    public const int MAP_TOWER_FLOORS_NUM = 1;
     public const int MAX_GEN_RAND_R_POS_NUM = 100;
     public const int MINIMAP_SIZE = 16;
     public const int DRAW_MAP_DIST = 16;
     public const int MAX_SPELL_COPIES_NUM = 3;
     public const int MAX_SPELL_NUM = 20;
     public const int MAP_FLOOR_DIST = 40;
-    public const int UNIT_TYPES_NUM = 6;
+    public const int UNIT_TYPES_NUM = 7;
     public const int RANDOM_SHUFFLE_CONST = 5;
     public const int BASE_FRIENDS_NUM = 3;
     public const int ENT_TYPE = 1;
@@ -165,6 +172,10 @@ public static class Lib
     public const int ENEMY_M_BIT = 2;
     public const int FRIEND_M_BIT = 5;
     public const int PLAYER_BOOST_NUM = 6;
+    public const int FOG_CLOCK_SECTOR = -1;
+    public const int  M_BOSS_RAND_SPELLS_NUM = 3;
+    public const int DIFFICULTS_NUM = 3;
+    public const int MAP_SIZES_NUM = 3;
     // wizards
     public const int MONSTER_WIZARD = 0;
     public const int NATURE_WIZARD = 1;
@@ -192,11 +203,19 @@ public static class Lib
     public const int ALL_T_TYPE = 0;
     public const int SIDE_T_TYPE = 1;
     public const int FRONT_T_TYPE = 2;
+    // Menu
+    public const int M_GAME = -1;
+    public const int M_MAIN_PANEL = 0;
+    public const int M_WIN_PANEL = 1;
+    public const int M_LOSE_PANEL = 2;
+    public const int M_LOADING_PANEL = 3;
     //
 
     public const int D_NUM = 4; // directions
     public const int INF = (int)1e9;
 
+    public static readonly PackedScene mainPS = LoadPS("main");
+    public static readonly PackedScene menuPS = LoadPS("menu");
     public static readonly PackedScene arrowPS = LoadPS("arrow");
     public static readonly PackedScene eArrowPS = LoadPS("e_arrow");
     public static readonly PackedScene healEArrowPS = LoadPS("heal_e_arrow");
@@ -204,27 +223,29 @@ public static class Lib
     public static readonly PackedScene elementalArrowPS = LoadPS("elemental_arrow");
     public static readonly PackedScene spiritArrowPS = LoadPS("spirit_arrow");
     public static readonly PackedScene spellPS = LoadPS("spell");
+    public static readonly PackedScene eSpellPS = LoadPS("e_spell");
     public static readonly PackedScene towerPS = LoadPS("tower");
     public static readonly PackedScene campPS = LoadPS("camp");
     public static readonly PackedScene altarPS = LoadPS("altar");
     public static readonly PackedScene enemyUnitPS = LoadPS("enemy_unit");
     public static readonly PackedScene friendUnitPS = LoadPS("friend_unit");
     public static readonly PackedScene bossPS = LoadPS("boss");
+    public static readonly PackedScene mBossPS = LoadPS("monster_boss");
     public static readonly Material damagedUnitM = LoadM("damaged_unit_m");
     public static readonly Material unitM = LoadM("main_m");
     public static readonly Material unitOrangeFogM = LoadM("orange_fog_units_m");
     public static readonly Vec2I MAIN_MAP_SIZE = new Vec2I(100, 100);
     public static readonly Vec2I MAP_T_FLOOR_SIZE = new Vec2I(50, 50);
     public static readonly Vec2I CAMP_UNITS_NUM = new Vec2I(2, 4);
-    public static readonly Vec2I ROOM_MONSTERS_NUM = new Vec2I(4, 6);
     public static readonly Vector3 SHOOT_BASE_TRANSLATION = new Vector3(0.0f, 0.25f * MAP_CELL_SIZE, 0.0f);
+    public static readonly Vector2 ROOM_MONSTERS_NUM = new Vector2(0.07f, 0.11f);
 
     public static readonly Vec2I[] D_WAYS = {new Vec2I(1, 0), new Vec2I(0, 1), new Vec2I(-1, 0), new Vec2I(0, -1)}; // directions ways
 
     public static readonly PackedScene[] wizardTowers = {LoadPS("WizardTowers/red_tower"),
      LoadPS("WizardTowers/green_tower"), LoadPS("WizardTowers/blue_tower"), LoadPS("WizardTowers/gray_tower"),
       LoadPS("WizardTowers/purpure_tower"), LoadPS("WizardTowers/white_tower")};
-      public static readonly PackedScene[] unitArrow = {null, null, elementalArrowPS, null, null, spiritArrowPS};
+      public static readonly PackedScene[] unitArrow = {null, null, elementalArrowPS, null, null, spiritArrowPS, null};
     public static readonly Mesh[] towerTModels = {LoadMesh("tower/tower0"), 
     LoadMesh("tower/tower1"), LoadMesh("tower/tower2")};
     public static readonly Material[] towerEMaterials = {LoadM("crystal_red_m"), LoadM("crystal_green_m"),
@@ -233,16 +254,23 @@ public static class Lib
      LoadM("e_blue_m"), LoadM("e_orange_m"), LoadM("e_purpure_m"), LoadM("e_white_m")};
      public static readonly Material[] wizardPMaterials = {LoadM("wizard/red_w_m"), LoadM("wizard/green_w_m"),
       LoadM("wizard/blue_w_m"), LoadM("wizard/orange_w_m"), LoadM("wizard/purpure_w_m"), LoadM("wizard/white_w_m")};
-     public static readonly string[] unitName = {"red", "green", "blue", "gray", "purpure", "white"};
+     public static readonly string[] unitName = {"red", "green", "blue", "gray", "purpure", "white", "gray2"};
      public static readonly string[] pBoostName = {"shield boost", "mana gen boost", "speed boost", "spell damage boost", "friends damage boost", "friends shield boost"};
-     public static readonly float[] unitSpeed = {4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f};
-     public static readonly float[] unitShield = {0.3f, 0.3f, 0.3f, 0.3f, 0.2f, 0.2f};
-     public static readonly float[] unitDamage = {1.2f, 0.6f, 0.8f, 0.7f, 0.6f, 0.7f};
-     public static readonly float[] unitHealth = {5.0f, 7.0f, 6.0f, 3.0f, 4.0f, 5.0f};
-     public static readonly uint[,] wizardUnits = {{0}, {1}, {2}, {3}, {4}, {5}};
-     public static readonly float[] wizardGenEConst = {1.2f, 0.8f, 1.0f, 1.8f, 2.0f, 2.0f};
-     public static readonly int[] clockSectors = {0, 0, 1, 1, -1, 2, 2, 3, 3, -1, 4, 4, 5, 5, -1};
+     public static readonly string[] difficultName = {"EASY", "NORMAL", "HARD"};
+     public static readonly string[] mapSizeName = {"SMALL", "MEDIUM", "LARGE"};
+     public static readonly float[] unitSpeed = {4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 4.0f, 6.0f};
+     public static readonly float[] unitShield = {0.4f, 0.3f, 0.3f, 0.3f, 0.1f, 0.2f, 0.5f};
+     public static readonly float[] unitDamage = {1.2f, 0.6f, 0.8f, 0.7f, 0.5f, 0.7f, 0.7f};
+     public static readonly float[] unitHealth = {5.0f, 7.0f, 6.0f, 4.0f, 3.0f, 5.0f, 10.0f};
+     public static readonly float[] unitMEnergyAdd = {1.0f, 1.4f, 1.2f, 0.7f, 0.4f, 0.6f, 2.0f};
+     public static readonly List<uint>[] wizardUnits = {new List<uint>(){0}, new List<uint>(){1}, 
+    new List<uint>(){2}, new List<uint>(){3, 6}, new List<uint>(){4}, new List<uint>(){5}};
+     public static readonly float[] wizardGenEConst = {1.2f, 0.8f, 1.0f, 1.8f, 2.6f, 2.0f};
+     public static readonly int[] clockSectors = {0, 0, 1, 1, FOG_CLOCK_SECTOR, 2, 2, 3, 3, FOG_CLOCK_SECTOR, 4, 4, 5, 5, FOG_CLOCK_SECTOR};
      public static readonly float[] wizardClockPos = {24.0f, 72.0f, 144.0f, 192.0f, 264.0f, 312.0f};
+     public static readonly float[] difficultConst = {0.8f, 1.0f, 1.2f};
+     public static readonly float[] mapSizeConst = {0.8f, 1.0f, 1.2f};
+     public static readonly int[] mapSizeTowerFloorsNum = {1, 1, 2};
 
     public static PackedScene LoadPS(string name)
     {
@@ -337,6 +365,23 @@ public static class Lib
     public static float GetRealAngle(float angle)
     {
         return -angle + Mathf.Pi / 2.0f;
+    }
+
+    public static Vector3 GenRandMCellPos(Random rand)
+    {
+        return MAP_CELL_SIZE * new Vector3((float)(rand.NextDouble() - 0.5f), 0.0f, (float)(rand.NextDouble() - 0.5f));
+    }
+
+    public static Vector3 RandAngleV(Random rand)
+    {
+        float a = (float)(2.0f * Mathf.Pi * rand.NextDouble());
+        return new Vector3(Mathf.Cos(a), 0.0f, Mathf.Sin(a));
+    }
+
+    public static int RoomGenMonstersNum(float size, uint wizard, uint difficult, Random rand)
+    {
+        Vector2 num =  difficultConst[difficult] * wizardGenEConst[wizard] * ROOM_MONSTERS_NUM;
+        return Mathf.RoundToInt((float)(size * (rand.NextDouble() * (num.y - num.x) + num.x)));
     }
 
 }

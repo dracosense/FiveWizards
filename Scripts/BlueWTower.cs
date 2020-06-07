@@ -13,11 +13,9 @@ public class BlueWTower : KinematicBody
 
     public override void _Ready()
     {
-        float a = 0.0f;
         root = (Root)GetNode("/root/root");
         attackArea = (Area)GetNode("AttackArea");
-        a = (float)(2.0f * Mathf.Pi * root.rand.NextDouble());
-        move = new Vector3(Mathf.Cos(a), 0.0f, Mathf.Sin(a)) * BLUE_W_TOWER_SPEED;
+        move = BLUE_W_TOWER_SPEED * RandAngleV(root.rand);
         timeFromAttack = 0.0f;
     }
 
@@ -39,7 +37,7 @@ public class BlueWTower : KinematicBody
             }
             timeFromAttack = 0.0f;
         }
-        MoveAndSlide(new Vector3(move.x, 0.0f, move.y));
+        MoveAndSlide(new Vector3(move.x, 0.0f, move.z));
         if (GetSlideCount() > 0)
         {
             KinematicCollision c = GetSlideCollision(0);

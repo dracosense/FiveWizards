@@ -173,7 +173,8 @@ public class GameMap
             }
         }
         GenMap(new Vec2I(0, 0), mainSize, new Vec2I(11, 11), new Vec2I(15, 15), 
-        new Vec2I(2, 2), new Vec2I(5, 5), new Vec2I(0, towersNum), towerOwners, towerOwners[playerTower], 0, 0); // main floor
+        new Vec2I(2, 2), new Vec2I(5, 5), new Vec2I(0, towersNum), towerOwners, 
+        towerOwners[playerTower], MAIN_FLOOR_W_T_GEN_CONST, CAMP_GEN_CONST, false); // main floor
         //
         x = 0;
         for (int j = 0; j < floorsNum.y; j++)
@@ -187,7 +188,7 @@ public class GameMap
                 b = (j * floorsNum.x + i < towersNum * (towerHeight - 1));
                 GenMap(genPos, genPos + towerSize, new Vec2I(11, 11), new Vec2I(15, 15), 
                 new Vec2I(2, 2), new Vec2I(5, 5), new Vec2I(towersNum + x, towersNum + x + 2), 
-                owners, -1, WIZARD_T_GEN_CONST, CAMP_GEN_CONST); // up and down, for end - only down
+                owners, -1, WIZARD_T_GEN_CONST, CAMP_GEN_CONST, true); // up and down, for end - only down
                 x += 2;
                 if (!b)
                 {
@@ -218,7 +219,7 @@ public class GameMap
                 }
                 else
                 {
-                    teleportTo[i] = teleports[towersNum + (towerHeight == 1?i:(2 * i))];
+                    teleportTo[i] = teleports[towersNum + 2 * i];
                     tToFloor[i] = new Vec2I(1, i);
                 }
             }
@@ -234,6 +235,13 @@ public class GameMap
                         teleportTo[x + 2 * j + 1] = teleports[x + 2 * (towersNum + j)];// + ((i == towerHeight - 2)?1:2) * j];
                         tToFloor[x + 2 * j + 1] = new Vec2I(i + 2, j);
                     }
+                }
+            }
+            for (int i = 0; i < rooms.Count; i++)
+            {
+                if (rooms[i].owner < 0)
+                {
+                    rooms[i].owner = MONSTER_WIZARD;
                 }
             }
             /*for (int i = 0; i < towersNum; i++)
@@ -370,7 +378,7 @@ public class GameMap
 
     public void GenMap(Vec2I begin, Vec2I end, Vec2I minRDist, 
     Vec2I maxRDist, Vec2I minRSize, Vec2I maxRSize, Vec2I mainR, 
-    int[] mROwners, int player, float wizardTGenConst, float campGenConst)
+    int[] mROwners, int player, float wizardTGenConst, float campGenConst, bool genTwoMRoomsInCorners = false)
     {
         List<Vec2I> rList = new List<Vec2I>();
         List<int> rcx = new List<int>();
@@ -393,7 +401,8 @@ public class GameMap
         bool b = false;
         if (begin.x >= end.x || begin.y >= end.y || begin.x < 0 || begin.y < 0 || end.x > size.x || end.y > size.y ||
          maxRDist.x <= minRDist.x || maxRDist.y <= minRDist.y || maxRSize.x <= minRSize.x || 
-         maxRSize.y <= minRSize.y || mROwners == null || mROwners.Length < mainR.y - mainR.x)
+         maxRSize.y <= minRSize.y || mROwners == null || mROwners.Length < mainR.y - mainR.x || 
+        (mainR.y - mainR.x != 2 && genTwoMRoomsInCorners))
         {
             GD.Print("Gen floor error.");
             return;
@@ -574,10 +583,17 @@ public class GameMap
         }
 
         // gen main rooms with teleports
-        mRooms = GenRandInRange(new Vec2I(0, rNum.x * rNum.y), mainR.y - mainR.x, rand);
-        x = 0;
+        if (genTwoMRoomsInCorners)
+        {
+            mRooms = new List<int>(){0, rNum.x * rNum.y - 1};
+        }
+        else
+        {
+            mRooms = GenRandInRange(new Vec2I(0, rNum.x * rNum.y), mainR.y - mainR.x, rand);
+        }
 
         // create rooms
+        x = 0;
         for (int i = 0; i < rNum.x; i++)
         {
             for (int j = 0; j < rNum.y; j++)

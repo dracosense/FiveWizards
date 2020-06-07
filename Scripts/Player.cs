@@ -49,7 +49,12 @@ public class Player : Unit
 
     public override void Destroy()
     {
-        GetTree().Quit();
+        root.LoseGame();
+    }
+
+    public override void SetMaterial()
+    {
+        model.MaterialOverride = wizardPMaterials[root.playerWizard];
     }
 
     public override void _Ready()
@@ -59,6 +64,7 @@ public class Player : Unit
         shield = PLAYER_SHIELD;
         randScaled = false;
         randRotated = false;
+        orangeFogChangeM = false; 
         base._Ready();
         collider = (CollisionShape)GetNode("Collider");
         mainLight = (OmniLight)GetNode("Model/MainLight");
@@ -74,13 +80,12 @@ public class Player : Unit
     {
         float x = 0.0f, y = 0.0f;
         shield = root.pBoosts[0] * PLAYER_SHIELD; // set player shield
-        speed = root.pBoosts[2] * PLAYER_SPEED; // set player speed 
+        speed = (root.playerInBattle?1.0f:PLAYER_RUN_SPEED_C) * root.pBoosts[2] * PLAYER_SPEED; // set player speed 
         root.playerPos = this.GlobalTransform.origin;
         move = Vector2.Zero;
         //
         mainLight.OmniRange = effects[VISIBILITY_R_E].GetPower() * MAIN_P_LIGHT_BASE_R;
         //
-        model.MaterialOverride = wizardPMaterials[root.playerWizard];
         if (absMove)
         {
             move = new Vector2(Input.GetActionStrength("game_left") - Input.GetActionStrength("game_right"),
