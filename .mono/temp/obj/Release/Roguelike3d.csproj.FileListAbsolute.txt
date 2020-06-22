@@ -1,0 +1,5 @@
+E:\projects\Godot\Roguelike3d\.mono\temp\bin\Release\Roguelike3d.dll
+E:\projects\Godot\Roguelike3d\.mono\temp\bin\Release\Roguelike3d.pdb
+E:\projects\Godot\Roguelike3d\.mono\temp\obj\Release\Roguelike3d.csprojAssemblyReference.cache
+E:\projects\Godot\Roguelike3d\.mono\temp\obj\Release\Roguelike3d.dll
+E:\projects\Godot\Roguelike3d\.mono\temp\obj\Release\Roguelike3d.pdb
